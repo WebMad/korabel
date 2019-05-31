@@ -1,0 +1,36 @@
+.new{
+    background: white;
+    color: black;
+    margin: 20px 0;
+    padding: 15px 20px;
+    display: flex;
+    border-radius: 3px;
+    flex-direction: column;
+    font-family: Montserrat, sans-serif;
+}
+.head_new{
+    font-size:36px;
+}
+.content_new{
+    margin:20px 0;
+    font-size:20px;
+}
+.content_full_new{
+    margin:20px 0;
+    font-size:20px;
+}
+.date_new{
+    color:#8f8f8f;
+}
+.more_btn_new{
+    border-bottom: 3px solid #91b731;
+    background-color: #a2cc37;
+    border-radius: 5px;
+    align-self: flex-end;
+    padding: 7px 12px;
+    color:#fff;
+    text-decoration: none;
+}
+.more_btn_new:hover{
+    background-color: #91b731;
+}

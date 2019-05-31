@@ -1,0 +1,242 @@
+*{
+	font-family: Montserrat, sans-serif;
+}
+body{
+	margin:0;
+	/*background-color: #5aca5a;*/
+	background: url('../../images/landing/background.jpg');
+}
+a{
+	text-decoration: none;
+	color:#2f2f2f;
+}
+header {
+	display: flex;
+	padding: 0 5%;
+	height: 50px;
+    align-items: center;
+    justify-content: space-between;
+	padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: #fff
+}
+.main-slider>.container{
+	padding: 0 5%;
+    display: flex;
+    align-items: center;
+	justify-content: space-between;
+    height: 75%;
+}
+.news{
+	width:40%;
+	margin-left:50px;
+	font-family: Montserrat, sans-serif;
+}
+.text_new{
+	font-size: 20px;
+	color:#fff;
+	text-align: justify;
+}
+.header_new{
+	font-size:36px;
+	color:#fff;
+}
+.news .slick-prev, .news .slick-next{
+	font-size:0;
+	outline: 0;
+    width: 35px;
+    height: 35px;
+    border: 0;
+    border-radius: 35px;
+}
+.news .slick-prev{
+	position: absolute;
+    left: -50px;
+    top: 40%;
+	background: url(/svg/landing/arrow-prev.svg) center no-repeat;
+	background-color: rgba(255,255,255,0.5);
+    background-size: 22px;
+}
+.news .slick-next{
+	background: url(/svg/landing/arrow-next.svg) center no-repeat;
+	background-size: 22px;
+	background-color: rgba(255,255,255,0.5);
+	position: absolute;
+    right: -50px;
+    top: 40%;
+}
+.news ul{
+	display:flex;
+	justify-content: center;
+}
+.news ul li{
+	margin: 0 20px;
+	list-style: none;
+}
+.news ul li button{
+	border:2px solid rgba(255,255,255,0.5);
+	background:unset;
+	border-radius:10px;
+	outline:0;
+	padding:7px;
+	font-size:0;
+}
+.slick-initialized .slick-slide{
+	outline:0;
+}
+.news ul li.slick-active button{
+	background: rgba(255,255,255,0.5);
+}
+.menu{
+	display: flex;
+    justify-content: flex-start;
+    flex-basis: 40%;
+}
+.logo{
+	text-decoration: none;
+}
+.logo-text{
+	font-family: Montserrat, sans-serif;
+    color: #454545;
+    font-size: 26px;
+}
+.logo-desc{
+	color: #878787;
+	font-family: Montserrat, sans-serif;
+	font-size: 14px;
+}
+.element{
+	padding:10px 20px;
+	border-radius: 4px;
+	color: #000;
+	margin: 0 5px;
+	font-family: Montserrat, sans-serif;
+	text-transform: uppercase;
+    font-size: 12px;
+	text-decoration: none;
+}
+.element:hover{
+	color: #fff;
+	background: #795f46;
+}
+.contacts{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.phone{
+    font-family: Montserrat, sans-serif;
+    font-size: 14px;
+    margin-left: 20px;
+}
+.phone-icon{
+    background: url('/svg/landing/phone.svg') 5px 4px no-repeat;
+    background-size: 25px 25px;
+    border-bottom: 3px solid #8a6d51;
+    width: 35px;
+    height: 32px;
+    background-color: #795f46;
+    border-radius: 5px;
+}
+.main-slider{
+	height:600px;
+}
+.feedback>.container{
+	padding: 0 20%;
+}
+.auth{
+	background: rgba(255,255,255,0.5);
+	border-radius: 10px;
+	padding:20px;
+	display:flex;
+	flex-direction:column;
+	flex-basis: 35%;
+}
+form{
+	display:flex;
+	flex-direction:column;
+}
+.auth_header{
+	font-size: 22px;
+    color: #3d3d3d;
+    font-weight: bold;
+    font-family: Montserrat, sans-serif;
+	margin-bottom: 20px;
+}
+.footer{
+	background-color: #ffffff30;
+	position:fixed;
+	width:100%;
+	bottom:0;
+}
+.footer>.container{
+	display:flex;
+	justify-content:space-between;
+	padding:20px 0;
+	font-family: Montserrat, sans-serif;
+}
+.container{
+	color:#3d3d3d;
+	width:70%;
+	margin:auto;
+}
+.info{
+	background: white;
+	color: black;
+	margin: 20px 0;
+	padding: 15px 20px;
+	display: flex;
+	border-radius: 3px;
+	flex-direction: column;
+	font-family: Montserrat, sans-serif;
+}
+iframe{
+	border:none;
+}
+.login{
+	width:400px;
+	margin:auto;
+	margin-top: 75px;
+	padding: 25px 20px;
+	background: rgba(255,255,255,0.5);
+}
+.login h2{
+	margin: 0 0 20px 0;
+}
+.user_sb{
+	display: flex;
+	align-items: center;
+
+}
+.exit-icon{
+	background: url('../../svg/landing/logout.svg');
+	background-size: cover;
+	width: 15px;
+	height: 15px;
+	margin-left: 15px;
+}
+#logout-form{
+	display: none;
+}
+.row{
+	display: flex;
+	justify-content: space-between;
+}
+.info-user{
+	flex-basis: 45%;
+}
+.documents-user{
+	flex-basis: 45%;
+}
+.number-stead{
+	font-weight: bold;
+}
+.stead{
+	border-bottom: 1px solid #e1e1e1;
+	display: flex;
+	flex-direction: column;
+	margin: 10px 0;
+}
+.receipts-stead{
+	margin: 10px 0;
+}

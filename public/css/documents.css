@@ -1,0 +1,25 @@
+.row{
+    display:flex;
+    flex-wrap: wrap;
+}
+.file{
+    border: 1px solid #dfdfdf;
+    margin: 10px;
+    padding: 5px;
+    flex-basis: 28%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    border-radius: 4px;
+}
+.receipt{
+    flex-basis: 100%;
+}
+.file .img{
+    height: 100%;
+    margin-right: 10px;
+}
+.file .img img{
+    height: 100%;
+}

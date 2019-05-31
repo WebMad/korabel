@@ -1,0 +1,30 @@
+form input{
+    outline:0;
+}
+input[type='text'], input[type='email'], input[type='password']{
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background:#fff;
+    padding: 7px;
+    font-size: 16px;
+    margin-bottom:20px;
+    font-family: Montserrat, sans-serif;
+}
+form input[type="submit"]{
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 20px;
+    background: #ff6c59;
+    border:0;
+    color:#fff;
+    width:40%;
+}
+form input[type="submit"]:hover{
+    background: #f05b48;
+}
+form input[type="submit"]:active{
+    background: #795f46;
+}
+textarea{
+    height: 150px;
+}

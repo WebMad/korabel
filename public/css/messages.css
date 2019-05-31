@@ -1,0 +1,45 @@
+.msg-box{
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    border: 1px solid transparent;
+    margin: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+}
+.msg-box.success{
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+.msg-box.info{
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+}
+.msg-box.warning{
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+}
+.msg-box.danger{
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+
+.msg-close{
+    background: url('../svg/close.svg');
+    width: 7px;
+    height: 7px;
+    cursor: pointer;
+}
+
+.msg-wrong-input{
+    color: #a94442;
+}
+.error_message{
+    color:red;
+}
