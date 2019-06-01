@@ -16,9 +16,8 @@
                 <th width="5%">ID</th>
                 <th width="11%">Фамилия</th>
                 <th width="11%">Имя</th>
-                <th width="11%">Отчество</th>
-                <th width="12%">Телефон</th>
                 <th width="15%">email</th>
+                <th width="15%">Статус</th>
                 <th width="20%">Действие</th>
             </tr>
             </thead>
@@ -28,9 +27,8 @@
                         <td>{{ $user['id'] }}</td>
                         <td>{{ $user['surname'] }}</td>
                         <td>{{ $user['name'] }}</td>
-                        <td>{{ $user['patronymic'] }}</td>
-                        <td>{{ $user['phone'] }}</td>
                         <td>{{ $user['email'] }}</td>
+                        <td>{{ $user['active'] == 1 ? 'Активный' : 'Неактивный' }}</td>
                         <td>
                             <a href="{{ route('admin.users.edit',['id'=>$user['id']]) }}">Редактировать</a>
                             |

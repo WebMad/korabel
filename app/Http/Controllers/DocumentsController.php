@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Session;
 use App\Documents;
 
 class DocumentsController extends Controller
@@ -18,7 +19,7 @@ class DocumentsController extends Controller
         ]);
         $file = $request->file('file');
 
-        $destinationPath = 'uploads';
+        $destinationPath = 'uploads/documents';
         $fileName = time();
         $filePath = $destinationPath.'/'.$fileName. '.' .$file->getClientOriginalExtension();
         $file->move($destinationPath,$filePath);
@@ -53,7 +54,7 @@ class DocumentsController extends Controller
             }
             $file = $request->file('file');
 
-            $destinationPath = 'uploads';
+            $destinationPath = 'uploads/documents';
             $fileName = time();
             $filePath = $destinationPath.'/'.$fileName. '.' .$file->getClientOriginalExtension();
             $file->move($destinationPath,$filePath);

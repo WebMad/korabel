@@ -17,4 +17,12 @@
             </div>
         </div>
     @endforeach
+    @if(count($news) == 0)
+        <div class="container">
+            <div class="new">
+                Ничего не найдено
+            </div>
+        </div>
+    @endif
+    {{ $news->links() }}
 @endsection

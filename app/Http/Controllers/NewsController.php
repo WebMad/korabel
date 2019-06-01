@@ -17,7 +17,7 @@ class NewsController extends Controller
             }
             return redirect(route('news'));
         }
-        $news = News::get();
+        $news = News::paginate(5);
         return view('news.view', ['news' => $news]);
     }
 

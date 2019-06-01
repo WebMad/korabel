@@ -32,7 +32,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'cabinet', 'as' => 'cabinet.']
 //Admin routes
 Route::group(['middleware' => 'can:admin-panel','prefix' => 'admin', 'as' => 'admin.'], function(){
 
-    Route::get('/', 'AdminController@index')->name('index');
+    Route::get('/', 'InfoController@index')->name('index');
+    Route::post('/', 'InfoController@update')->name('update');
 
     //News admin routes
     Route::group(['prefix' => 'news', 'as' => 'news.'], function(){

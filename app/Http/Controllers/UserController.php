@@ -24,11 +24,12 @@ class UserController extends Controller
         return view('admin.users.create');
     }
     public function store(Request $request){
-        $fields = $request->only('email', 'phone', 'password', 'name', 'surname', 'patronymic');
+        $fields = $request->only('email', 'phone', 'password', 'name', 'surname', 'patronymic', 'active');
         Validator::make($fields, [
             'email' => 'required|unique:users',
             'password' => 'required',
             'name' => 'required',
+            'active' => 'required',
             'surname' => '',
             'patronymic' => '',
             'phone' => '',
@@ -59,7 +60,7 @@ class UserController extends Controller
             $id =  Auth::user()->id;
         }
 
-        $fields = $request->only('phone', 'name', 'surname', 'patronymic');
+        $fields = $request->only('phone', 'name', 'surname', 'patronymic', 'active');
         if(!empty($request->input('password'))){
             $fields['password'] = $request->input('password');
             Validator::make($fields,[
@@ -78,6 +79,7 @@ class UserController extends Controller
             'name' => 'required|max:255',
             'surname' => 'max:255',
             'patronymic' => 'max:255',
+            'active' => 'required',
         ])->validate();
 
         if ($request->input('is_admin')) {

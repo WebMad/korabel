@@ -30,10 +30,14 @@ class LandingController extends Controller
         return view('landing.index', ['news' => News::get()]);
     }
     public function contacts(){
-        return view('contacts');
+        return view('contacts', ['info' => InfoController::getInfo()]);
     }
     public function documents(){
-        return view('documents', ['documents' => Documents::get()->where('type','default')]);
+        return view('documents', [
+            'documents' => Documents::get()->where('type','default'),
+            'patterns' => Documents::get()->where('type','pattern'),
+            'protocols' => Documents::get()->where('type','protocol'),
+        ]);
     }
 
     public function cabinet(){

@@ -1,4 +1,4 @@
-$('.news').slick({
+$('.advantages').slick({
   dots: true,
   infinite: true,
   autoplay:true,

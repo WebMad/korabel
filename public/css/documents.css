@@ -1,12 +1,13 @@
-.row{
+.row-file{
     display:flex;
     flex-wrap: wrap;
+    justify-content: normal;
 }
 .file{
     border: 1px solid #dfdfdf;
     margin: 10px;
     padding: 5px;
-    flex-basis: 28%;
+    flex-basis: 29%;
     height: 80px;
     display: flex;
     align-items: center;

@@ -43,10 +43,19 @@
             @endif
             <input type="password" name="password" placeholder="Пароль">
 
+            @if ($errors->has('active'))
+                <span class="error_message">{{ $errors->first('active') }}</span>
+            @endif
+            Статус:
+            <select name="active">
+                <option value="0" selected>Неактивен</option>
+                <option value="1">Активен</option>
+            </select>
+
             @if ($errors->has('is_admin'))
                 <span class="error_message">{{ $errors->first('is_admin') }}</span>
             @endif
-            <div>Админ <input type="checkbox" name="is_admin"></div>
+            <p>Админ <input type="checkbox" name="is_admin"></p>
 
             <input type="submit">
         </form>

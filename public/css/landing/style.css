@@ -27,21 +27,20 @@ header {
 	justify-content: space-between;
     height: 75%;
 }
-.news{
-	width:40%;
-	margin-left:50px;
+.advantages{
+	width:50%;
 	font-family: Montserrat, sans-serif;
 }
-.text_new{
-	font-size: 20px;
+.text_advantage{
+	font-size: 16px;
 	color:#fff;
 	text-align: justify;
 }
-.header_new{
+.header_advantage{
 	font-size:36px;
 	color:#fff;
 }
-.news .slick-prev, .news .slick-next{
+.advantages .slick-prev, .advantages .slick-next{
 	font-size:0;
 	outline: 0;
     width: 35px;
@@ -49,31 +48,31 @@ header {
     border: 0;
     border-radius: 35px;
 }
-.news .slick-prev{
+.advantages .slick-prev{
 	position: absolute;
     left: -50px;
     top: 40%;
-	background: url(/svg/landing/arrow-prev.svg) center no-repeat;
-	background-color: rgba(255,255,255,0.5);
+	background: url('/svg/landing/arrow-prev.svg') center no-repeat;
+	background-color: rgba(255,255,255,0.1);
     background-size: 22px;
 }
-.news .slick-next{
-	background: url(/svg/landing/arrow-next.svg) center no-repeat;
+.advantages .slick-next{
+	background: url('/svg/landing/arrow-next.svg') center no-repeat;
 	background-size: 22px;
-	background-color: rgba(255,255,255,0.5);
+	background-color: rgba(255,255,255,0.1);
 	position: absolute;
     right: -50px;
     top: 40%;
 }
-.news ul{
+.advantages ul{
 	display:flex;
 	justify-content: center;
 }
-.news ul li{
+.advantages ul li{
 	margin: 0 20px;
 	list-style: none;
 }
-.news ul li button{
+.advantages ul li button{
 	border:2px solid rgba(255,255,255,0.5);
 	background:unset;
 	border-radius:10px;
@@ -84,7 +83,7 @@ header {
 .slick-initialized .slick-slide{
 	outline:0;
 }
-.news ul li.slick-active button{
+.advantages ul li.slick-active button{
 	background: rgba(255,255,255,0.5);
 }
 .menu{
@@ -146,7 +145,6 @@ header {
 }
 .auth{
 	background: rgba(255,255,255,0.5);
-	border-radius: 10px;
 	padding:20px;
 	display:flex;
 	flex-direction:column;
@@ -195,8 +193,7 @@ iframe{
 }
 .login{
 	width:400px;
-	margin:auto;
-	margin-top: 75px;
+	margin: 75px auto;
 	padding: 25px 20px;
 	background: rgba(255,255,255,0.5);
 }
@@ -239,4 +236,32 @@ iframe{
 }
 .receipts-stead{
 	margin: 10px 0;
+}
+.authors {
+	color: #6b6b6b;
+}
+form .row {
+	align-items: center;
+}
+.pagination{
+	list-style: none;
+	display: flex;
+	margin:auto;
+	max-width: fit-content;
+}
+.page-item.active{
+	border-bottom: 3px solid #91b731;
+	background-color: #a2cc37;
+	color:white;
+}
+.page-item{
+	font-size: 20px;
+	margin: 5px;
+	background: white;
+	height:auto;
+	border-radius: 3px;
+	padding: 5px 0;
+}
+.page-link{
+	padding: 10px;
 }

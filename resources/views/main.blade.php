@@ -15,8 +15,8 @@
 <body>
 <header>
 	<a href="{{ route('landing') }}" class="logo">
-		<div class="logo-text">СНТ «КОРАБЕЛ»</div>
-		<div class="logo-desc">Садоводческое некомерческое товарищество</div>
+		<div class="logo-text">{{ \App\Http\Controllers\InfoController::getInfo()['site_name'] }}</div>
+		<div class="logo-desc">{{ \App\Http\Controllers\InfoController::getInfo()['site_subname'] }}</div>
 	</a>
 	<div class="menu">
 		<a href="{{ route('landing') }}" class="element">Главная</a>
@@ -32,7 +32,7 @@
 	@guest
 		<div class="contacts">
 			<div class="phone-icon"></div>
-			<div class="phone">+7 (927) 576-10-61</div>
+			<div class="phone">{{ \App\Http\Controllers\InfoController::getInfo()['site_phone'] }}</div>
 		</div>
 	@else
 		<div class="user_sb">

@@ -29,6 +29,7 @@
             <select name="type">
                 <option value="default" {{ $document['type'] == 'default' ? 'selected' : '' }}>Публичный</option>
                 <option value="protocol" {{ $document['type'] == 'protocol' ? 'selected' : '' }}>Протокол собрания</option>
+                <option value="pattern" {{ $document['type'] == 'pattern' ? 'selected' : '' }}>Образец заявления</option>
             </select><br>
 
             <input type="submit">

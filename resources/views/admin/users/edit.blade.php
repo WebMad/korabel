@@ -9,7 +9,7 @@
 @section('content')
     <div class="container">
         <a href="{{ route('admin.users.index') }}">Назад</a>
-        <h2>Создание пользователя</h2>
+        <h2>Редактирование пользователя</h2>
         <form action="{{ route('admin.users.update', ['id' => $user['id']]) }}" method="post">
             {{ csrf_field() }}
 
@@ -43,10 +43,19 @@
             @endif
             <input type="password" name="password" placeholder="Новый пароль"><br>
 
+            @if ($errors->has('active'))
+                <span class="error_message">{{ $errors->first('active') }}</span>
+            @endif
+            Статус:
+            <select name="active">
+                <option value="0" {{ $user['active'] == 0 ? 'selected' : '' }}>Неактивен</option>
+                <option value="1" {{ $user['active'] == 1 ? 'selected' : '' }}>Активен</option>
+            </select>
+
             @if ($errors->has('is_admin'))
                 <span class="error_message">{{ $errors->first('is_admin') }}</span>
             @endif
-            Админ <input type="checkbox" name="is_admin" {{ $user['is_admin'] ? 'checked' : '' }}><br>
+            <p>Админ <input type="checkbox" name="is_admin" {{ $user['is_admin'] ? 'checked' : '' }}></p>
 
             <input type="submit">
         </form>

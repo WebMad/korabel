@@ -12,7 +12,7 @@
             {{ csrf_field() }}
             <input type="text" class="text_field" name="email" placeholder="Электронная почта">
             <input type="password" class="text_field" name="password" placeholder="Пароль">
-            <input type="submit" value="Вход">
+            <div class="row"><input type="submit" value="Вход"> <a href="{{ route('register') }}">Регистрация</a></div>
         </form>
     </div>
 @endsection

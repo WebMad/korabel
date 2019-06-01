@@ -20,6 +20,7 @@
                             <div class="msg-close"></div>
                         </div>
                     @endif
+                    <p><b>Статус:</b> {{ $user['active'] == 0 ? 'неактивный, администратор проверяет вашу информацию, поcле чего вы получите полный доступ ко всем функциям сайта.' : 'активный'}}</p>
                     <form action="{{ route('cabinet.user.update')}}" method="post">
                         @csrf
                         @if($errors->has('surname'))
@@ -54,21 +55,23 @@
                         <input type="submit">
                     </form>
                 </div>
-                <div class="documents-user">
-                    <h3>Квитанции</h3>
-                    @foreach($steads as $stead)
-                        <div class="stead">
-                            <div class="number-stead">Участок №{{ $stead->number }}</div>
-                            <div class="receipts-stead">
-                                @foreach($stead->receipts as $receipt)
-                                    <a href="{{ $receipt['file'] }}" class="receipt-file">
-                                        <div class="receipt-name">{{ $months[date('n',strtotime($receipt->date_receipt))-1] . ' ' . date('Y',strtotime($receipt->date_receipt)) }}</div>
-                                    </a>
-                                @endforeach
+                @if(Auth::user()->active == 1)
+                    <div class="documents-user">
+                        <h3>Квитанции</h3>
+                        @foreach($steads as $stead)
+                            <div class="stead">
+                                <div class="number-stead">Участок №{{ $stead->number }}</div>
+                                <div class="receipts-stead">
+                                    @foreach($stead->receipts as $receipt)
+                                        <a href="{{ $receipt['file'] }}" class="receipt-file">
+                                            <div class="receipt-name">{{ $months[date('n',strtotime($receipt->date_receipt))-1] . ' ' . date('Y',strtotime($receipt->date_receipt)) }}</div>
+                                        </a>
+                                    @endforeach
+                                </div>
                             </div>
-                        </div>
-                    @endforeach
-                </div>
+                        @endforeach
+                    </div>
+                @endif
             </div>
 
         </div>

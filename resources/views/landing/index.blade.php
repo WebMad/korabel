@@ -5,13 +5,19 @@
 @section('content')
 	<div class="main-slider">
 		<div class="container">
-			<div class="news">
-				@foreach($news as $new)
-					<a href="{{ route('news', ['id'=>$new['id']]) }}" class="new">
-						<div class="header_new">{{ $new['header'] }}</div>
-						<div class="text_new">{{ mb_substr($new['content'],0,127) }}{{ (mb_strlen($new['content']) > 127) ? '...' : '' }}</div>
-					</a>
-				@endforeach
+			<div class="advantages">
+				<div class="advantage">
+					<div class="header_advantage">Удобство</div>
+					<div class="text_advantage">Используйте этот интернет-портал, чтобы получать информацию о сообществе в кратчайшие сроки. Новости, квитанции, документы, контакты - все это доступно в одном месте!</div>
+				</div>
+				<div class="advantage">
+					<div class="header_advantage">Безопасность</div>
+					<div class="text_advantage">Ваша информация надежно защищена, мы заботимся об этом. Используя данный интернет-портал, вы можете не беспокоиться о том, что информация попадет в третьи руки.</div>
+				</div>
+				<div class="advantage">
+					<div class="header_advantage">Скорость</div>
+					<div class="text_advantage">Данный интернет-портал позволяет затрачивать меньшее количество времени на электронный документооборот.</div>
+				</div>
 			</div>
 			@if(Auth::id() == null)
 				<div class="auth">
@@ -26,7 +32,7 @@
 							<div class="msg-wrong-input">{{ $errors->first('password') }}</div>
 						@endif
 						<input type="password" class="text_field" name="password" placeholder="Пароль">
-						<input type="submit" value="Вход">
+						<div class="row"><input type="submit" value="Вход"> <a href="{{ route('register') }}">Регистрация</a></div>
 					</form>
 				</div>
 			@endif
