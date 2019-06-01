@@ -25,7 +25,6 @@ class UserController extends Controller
     }
     public function store(Request $request){
         $fields = $request->only('email', 'phone', 'password', 'name', 'surname', 'patronymic');
-        $fields['password'] = Hash::make($fields['password']);
         Validator::make($fields, [
             'email' => 'required|unique:users',
             'password' => 'required',
@@ -34,6 +33,7 @@ class UserController extends Controller
             'patronymic' => '',
             'phone' => '',
         ])->validate();
+        $fields['password'] = Hash::make($fields['password']);
         User::create($fields);
         if($request->input('is_admin')) {
             UsersRole::create([
@@ -58,19 +58,6 @@ class UserController extends Controller
         if($id == null){
             $id =  Auth::user()->id;
         }
-        else {
-            if ($request->input('is_admin')) {
-                UsersRole::create([
-                    'id_user' => $id,
-                    'id_role' => Role::where('name', 'admin-panel')->first()->value('id')
-                ]);
-            } else {
-                UsersRole::where([
-                    'id_user' => $id,
-                    'id_role' => Role::where('name', 'admin-panel')->first()->value('id')
-                ])->delete();
-            }
-        }
 
         $fields = $request->only('phone', 'name', 'surname', 'patronymic');
         if(!empty($request->input('password'))){
@@ -92,6 +79,18 @@ class UserController extends Controller
             'surname' => 'max:255',
             'patronymic' => 'max:255',
         ])->validate();
+
+        if ($request->input('is_admin')) {
+            UsersRole::create([
+                'id_user' => $id,
+                'id_role' => Role::where('name', 'admin-panel')->first()->value('id')
+            ]);
+        } else {
+            UsersRole::where([
+                'id_user' => $id,
+                'id_role' => Role::where('name', 'admin-panel')->first()->value('id')
+            ])->delete();
+        }
 
         User::find($id)->fill($fields)->save();
 

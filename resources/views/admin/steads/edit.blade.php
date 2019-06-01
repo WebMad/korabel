@@ -21,24 +21,31 @@
         <h2>Редактирование участка</h2>
         <form action="{{ route('admin.steads.update', ['id' => $stead->id]) }}" method="post">
             {{ csrf_field() }}
-            <input type="text" placeholder="Номер участка" value="{{ $stead->number }}" name="number">
-            <fieldset>
-                <input type="text" placeholder="Поиск пользователей" id="search_user" name="Поиск пользователя"><br>
-                <select id="users" name="user_id" size="5">
-                    <option class="user" value="" {{ (!isset($user)) ? 'selected' : '' }}>Нет владельца</option>
-                    @if(isset($user))
-                        <option class="user" {{ (isset($user)) ? 'selected' : '' }} value="{{ $user->user_id }}">{{ $user->surname }} {{ $user->name }} {{ $user->patronymic }}</option>
-                    @endif
 
-                    @foreach($users as $user)
-                        <option class="user" value="{{ $user->id }}">
-                            {{ $user->surname }}
-                            {{ $user->name }}
-                            {{ $user->patronymic }}
-                        </option>
-                    @endforeach
-                </select>
-            </fieldset>
+            @if ($errors->has('number'))
+                <span class="error_message">{{ $errors->first('number') }}</span>
+            @endif
+            <input type="text" placeholder="Номер участка" value="{{ $stead->number }}" name="number"><br>
+
+            <input type="text" placeholder="Поиск пользователей" id="search_user" name="Поиск пользователя">
+            @if ($errors->has('user_id'))
+                <span class="error_message">{{ $errors->first('user_id') }}</span>
+            @endif
+            <select id="users" name="user_id" size="5">
+                <option class="user" value="" {{ (!isset($user)) ? 'selected' : '' }}>Нет владельца</option>
+                @if(isset($user))
+                    <option class="user" {{ (isset($user)) ? 'selected' : '' }} value="{{ $user->user_id }}">{{ $user->surname }} {{ $user->name }} {{ $user->patronymic }}</option>
+                @endif
+
+                @foreach($users as $user)
+                    <option class="user" value="{{ $user->id }}">
+                        {{ $user->surname }}
+                        {{ $user->name }}
+                        {{ $user->patronymic }}
+                    </option>
+                @endforeach
+            </select>
+
             <input type="submit">
         </form>
     </div>
