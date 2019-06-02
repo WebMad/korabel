@@ -25,16 +25,17 @@ class UserController extends Controller
     }
     public function store(Request $request){
         $fields = $request->only('email', 'phone', 'password', 'name', 'surname', 'patronymic', 'active');
+        $fields['password_confirmation'] = $request->input('password_confirmation');
         Validator::make($fields, [
             'email' => 'required|unique:users',
-            'password' => 'required',
+            'password' => 'required|confirmed',
             'name' => 'required',
-            'active' => 'required',
             'surname' => '',
             'patronymic' => '',
             'phone' => '',
         ])->validate();
         $fields['password'] = Hash::make($fields['password']);
+        unset($fields['password_confirmation']);
         User::create($fields);
         if($request->input('is_admin')) {
             UsersRole::create([
@@ -63,10 +64,12 @@ class UserController extends Controller
         $fields = $request->only('phone', 'name', 'surname', 'patronymic', 'active');
         if(!empty($request->input('password'))){
             $fields['password'] = $request->input('password');
+            $fields['password_confirmation'] = $request->input('password_confirmation');
             Validator::make($fields,[
-                'password' => 'max:255',
+                'password' => 'max:255|confirmed',
             ])->validate();
             $fields['password'] = Hash::make($fields['password']);
+            unset($fields['password_confirmation']);
         }
         if($request->input('email') != User::find($id)->email){
             $fields['email'] = $request->input('email');
@@ -79,7 +82,6 @@ class UserController extends Controller
             'name' => 'required|max:255',
             'surname' => 'max:255',
             'patronymic' => 'max:255',
-            'active' => 'required',
         ])->validate();
 
         if ($request->input('is_admin')) {
@@ -93,6 +95,8 @@ class UserController extends Controller
                 'id_role' => Role::where('name', 'admin-panel')->first()->value('id')
             ])->delete();
         }
+
+        //dd($fields);
 
         User::find($id)->fill($fields)->save();
 

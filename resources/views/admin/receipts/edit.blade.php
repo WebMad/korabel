@@ -16,32 +16,40 @@
         <form action="{{ route('admin.receipts.update', [$receipt->id]) }}" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
 
-            @if ($errors->has('receipts'))
-                <span class="error_message">Выберите файл</span>
-            @endif
-            <input type="file" accept="application/pdf" name="receipts"><br>
+            <div class="form-group">
+                <span>Файл:</span>
+                <input type="file" accept="application/pdf" name="receipts">
+                @if ($errors->has('receipts'))
+                    <span class="error_message">Выберите файл</span>
+                @endif
+            </div>
 
-            @if ($errors->has('date_receipt'))
-                <span class="error_message">Выберите месяц</span>
-            @endif
-            <input type="month" value="{{ $receipt->date_receipt }}" name="date_receipt"><br>
+            <div class="form-group">
+                <span>Месяц:</span>
+                <input type="month" value="{{ $receipt->date_receipt }}" name="date_receipt">
+                @if ($errors->has('date_receipt'))
+                    <span class="error_message">Выберите месяц</span>
+                @endif
+            </div>
 
-            <input type="text" placeholder="Поиск участка" id="search_stead"><br>
-
-            @if ($errors->has('stead_id'))
-                <span class="error_message">Выберите участок</span>
-            @endif
-            <select id="steads" name="stead_id" size="5">
-                <option selected value="{{ $stead->id }}">{{ $stead->number }} - {{ $stead->surname }} {{ $stead->name }} {{ $stead->patronymic }}</option>
-                @foreach($steads as $stead)
-                    <option class="user" value="{{ $stead->id }}">
-                        {{ $stead->number }} -
-                        {{ $stead->surname }}
-                        {{ $stead->name }}
-                        {{ $stead->patronymic }}
-                    </option>
-                @endforeach
-            </select>
+            <div class="form-group">
+                <span>Участок:</span>
+                <input type="text" placeholder="Поиск участка" id="search_stead">
+                <select id="steads" name="stead_id" size="5">
+                    <option selected value="{{ $stead->id }}">{{ $stead->number }} - {{ $stead->surname }} {{ $stead->name }} {{ $stead->patronymic }}</option>
+                    @foreach($steads as $stead)
+                        <option class="user" value="{{ $stead->id }}">
+                            {{ $stead->number }} -
+                            {{ $stead->surname }}
+                            {{ $stead->name }}
+                            {{ $stead->patronymic }}
+                        </option>
+                    @endforeach
+                </select>
+                @if ($errors->has('stead_id'))
+                    <span class="error_message">Выберите участок</span>
+                @endif
+            </div>
 
             <input type="submit">
         </form>

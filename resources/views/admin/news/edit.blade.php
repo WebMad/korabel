@@ -13,15 +13,22 @@
         <form action="{{ route('admin.news.update',['id' => $new['id']]) }}" method="post">
             {{ csrf_field() }}
 
-            @if ($errors->has('header'))
-                <span class="error_message">{{ $errors->first('header') }}</span>
-            @endif
-            <input type="text" name="header" placeholder="Заголовок" value="{{ $new['header'] }}">
+            <div class="form-group">
+                <span>Заголовок</span>
+                <input type="text" name="header" placeholder="Заголовок" value="{{ $new['header'] }}">
+                @if ($errors->has('header'))
+                    <span class="error_message">{{ $errors->first('header') }}</span>
+                @endif
+            </div>
 
-            @if ($errors->has('content'))
-                <span class="error_message">{{ $errors->first('content') }}</span>
-            @endif
-            <textarea name="content"  placeholder="Текст новости">{{ $new['content'] }}</textarea>
+            <div class="form-group">
+                <span>Текст новости:</span>
+                <textarea name="content"  placeholder="Текст новости">{{ $new['content'] }}</textarea>
+                @if ($errors->has('content'))
+                    <span class="error_message">{{ $errors->first('content') }}</span>
+                @endif
+            </div>
+
             <input type="submit">
         </form>
     </div>

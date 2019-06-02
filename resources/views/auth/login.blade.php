@@ -10,8 +10,14 @@
         @endif
         <form action="{{ route('login') }}" method="post" class="login_form">
             {{ csrf_field() }}
-            <input type="text" class="text_field" name="email" placeholder="Электронная почта">
-            <input type="password" class="text_field" name="password" placeholder="Пароль">
+            <div class="form-group">
+                <input type="text" name="email" placeholder="Электронная почта">
+            </div>
+
+            <div class="form-group">
+                <input type="password" name="password" placeholder="Пароль">
+            </div>
+
             <div class="row"><input type="submit" value="Вход"> <a href="{{ route('register') }}">Регистрация</a></div>
         </form>
     </div>

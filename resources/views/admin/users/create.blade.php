@@ -13,49 +13,78 @@
         <form action="{{ route('admin.users.store') }}" method="post">
             {{ csrf_field() }}
 
-            @if ($errors->has('surname'))
-                <span class="error_message">{{ $errors->first('surname') }}</span>
-            @endif
-            <input type="text" name="surname" placeholder="Фамилия">
+            <div class="form-group">
+                <span>Фамилия:</span>
+                <input type="text" name="surname" placeholder="Фамилия">
+                @if ($errors->has('surname'))
+                    <span class="error_message">{{ $errors->first('surname') }}</span>
+                @endif
+            </div>
 
-            @if ($errors->has('name'))
-                <span class="error_message">{{ $errors->first('name') }}</span>
-            @endif
-            <input type="text" name="name" placeholder="Имя">
+            <div class="form-group">
+                <span>Имя:</span>
+                <input type="text" name="name" placeholder="Имя">
+                @if ($errors->has('name'))
+                    <span class="error_message">{{ $errors->first('name') }}</span>
+                @endif
+            </div>
 
-            @if ($errors->has('patronymic'))
-                <span class="error_message">{{ $errors->first('patronymic') }}</span>
-            @endif
-            <input type="text" name="patronymic" placeholder="Отчество">
+            <div class="form-group">
+                <span>Отчество:</span>
+                <input type="text" name="patronymic" placeholder="Отчество">
+                @if ($errors->has('patronymic'))
+                    <span class="error_message">{{ $errors->first('patronymic') }}</span>
+                @endif
+            </div>
 
-            @if ($errors->has('email'))
-                <span class="error_message">{{ $errors->first('email') }}</span>
-            @endif
-            <input type="email" name="email" placeholder="Электронная почта">
+            <div class="form-group">
+                <span>Электронная почта:</span>
+                <input type="email" name="email" placeholder="Электронная почта">
+                @if ($errors->has('email'))
+                    <span class="error_message">{{ $errors->first('email') }}</span>
+                @endif
+            </div>
 
-            @if ($errors->has('phone'))
-                <span class="error_message">{{ $errors->first('phone') }}</span>
-            @endif
-            <input type="text" name="phone" placeholder="Номер телефона">
+            <div class="form-group">
+                <span>Телефон:</span>
+                <input type="text" name="phone" placeholder="Номер телефона">
+                @if ($errors->has('phone'))
+                    <span class="error_message">{{ $errors->first('phone') }}</span>
+                @endif
+            </div>
 
-            @if ($errors->has('password'))
-                <span class="error_message">{{ $errors->first('password') }}</span>
-            @endif
-            <input type="password" name="password" placeholder="Пароль">
+            <div class="form-group">
+                <span>Пароль:</span>
+                <input type="password" name="password" placeholder="Пароль">
+                @if ($errors->has('password'))
+                    <span class="error_message">{{ $errors->first('password') }}</span>
+                @endif
+            </div>
+            <div class="form-group">
+                <span>Повторите пароль:</span>
+                <input type="password" name="password_confirmation" placeholder="Повторите пароль">
+                @if ($errors->has('password_confirmation'))
+                    <span class="error_message">{{ $errors->first('password_confirmation') }}</span>
+                @endif
+            </div>
 
-            @if ($errors->has('active'))
-                <span class="error_message">{{ $errors->first('active') }}</span>
-            @endif
-            Статус:
-            <select name="active">
-                <option value="0" selected>Неактивен</option>
-                <option value="1">Активен</option>
-            </select>
+            <div class="form-group">
+                <span>Статус:</span>
+                <select name="active">
+                    <option value="0" selected>Неактивен</option>
+                    <option value="1">Активен</option>
+                </select>
+                @if ($errors->has('active'))
+                    <span class="error_message">{{ $errors->first('active') }}</span>
+                @endif
+            </div>
 
-            @if ($errors->has('is_admin'))
-                <span class="error_message">{{ $errors->first('is_admin') }}</span>
-            @endif
-            <p>Админ <input type="checkbox" name="is_admin"></p>
+            <div class="form-group">
+                <span>Админ <input type="checkbox" name="is_admin"></span>
+                @if ($errors->has('is_admin'))
+                    <span class="error_message">{{ $errors->first('is_admin') }}</span>
+                @endif
+            </div>
 
             <input type="submit">
         </form>

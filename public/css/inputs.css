@@ -1,14 +1,14 @@
 form input{
     outline:0;
 }
-input[type='text'], input[type='email'], input[type='password']{
+input[type='text'], input[type='email'], input[type='password'], textarea, select{
     border-radius: 5px;
     border: 1px solid rgba(0, 0, 0, 0.1);
     background:#fff;
     padding: 7px;
     font-size: 16px;
-    margin-bottom:20px;
     font-family: Montserrat, sans-serif;
+    outline:0;
 }
 form input[type="submit"]{
     border-radius: 5px;
@@ -27,4 +27,9 @@ form input[type="submit"]:active{
 }
 textarea{
     height: 150px;
+}
+.form-group{
+    display: flex;
+    flex-direction: column;
+    margin-bottom:20px;
 }

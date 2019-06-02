@@ -15,7 +15,7 @@ class CreateSteadsTable extends Migration
     {
         Schema::create('steads', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('number');
+            $table->string('number');
             $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')
                 ->references('id')

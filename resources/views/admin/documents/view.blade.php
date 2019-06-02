@@ -30,6 +30,7 @@
                         @switch($document['type'])
                             @case('default') Публичный @break
                             @case('protocol') Протокол собрания @break
+                            @case('pattern') Образец заявления @break
                         @endswitch
                     </td>
                     <td>

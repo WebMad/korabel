@@ -89,7 +89,6 @@ class ReceiptController extends Controller
         foreach($files as $file){
             $stead = Stead::where('number', mb_substr($file->getClientOriginalName(), 0, -4))->get()->first();
             if(count($stead)>0) {
-                //dd($stead);
 
                 $destination_path = 'uploads/receipts';
                 $file_name++;
@@ -111,13 +110,12 @@ class ReceiptController extends Controller
         }
 
 
+        Receipt::insert($receipts);
 
         if(isset($steads_list) and count($steads_list)>0) {
             Session::flash('msg.steads', $steads_list);
         }
         else{
-            Receipt::insert($receipts);
-
             Session::flash('msg.status', 'success');
             Session::flash('msg.text', 'Квитанции успешно дабвлены!');
 

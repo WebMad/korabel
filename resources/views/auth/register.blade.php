@@ -9,45 +9,61 @@
         <form action="{{ route('register') }}" method="post" class="login_form">
             {{ csrf_field() }}
 
-            @if ($errors->has('surname'))
-                <span class="error_message">{{ $errors->first('surname') }}</span>
-            @endif
-            <input type="text" class="text_field" name="surname" placeholder="Фамилия">
+            <div class="form-group">
+                <input type="text" name="surname" placeholder="Фамилия">
+                @if ($errors->has('surname'))
+                    <span class="error_message">{{ $errors->first('surname') }}</span>
+                @endif
+            </div>
 
-            @if ($errors->has('name'))
-                <span class="error_message">{{ $errors->first('name') }}</span>
-            @endif
-            <input type="text" class="text_field" name="name" placeholder="Имя*">
+            <div class="form-group">
+                <input type="text" name="name" placeholder="Имя*">
+                @if ($errors->has('name'))
+                    <span class="error_message">{{ $errors->first('name') }}</span>
+                @endif
+            </div>
 
-            @if ($errors->has('patronymic'))
-                <span class="error_message">{{ $errors->first('patronymic') }}</span>
-            @endif
-            <input type="text" class="text_field" name="patronymic" placeholder="Отчество">
+            <div class="form-group">
+                <input type="text" name="patronymic" placeholder="Отчество">
+                @if ($errors->has('patronymic'))
+                    <span class="error_message">{{ $errors->first('patronymic') }}</span>
+                @endif
+            </div>
 
-            @if ($errors->has('phone'))
-                <span class="error_message">{{ $errors->first('phone') }}</span>
-            @endif
-            <input type="text" class="text_field" name="phone" placeholder="Номер телефона">
+            <div class="form-group">
+                <input type="text" name="phone" placeholder="Номер телефона">
+                @if ($errors->has('phone'))
+                    <span class="error_message">{{ $errors->first('phone') }}</span>
+                @endif
+            </div>
 
-            @if ($errors->has('email'))
-                <span class="error_message">{{ $errors->first('email') }}</span>
-            @endif
-            <input type="text" class="text_field" name="email" placeholder="Электронная почта*">
+            <div class="form-group">
+                <input type="text" name="email" placeholder="Электронная почта*">
+                @if ($errors->has('email'))
+                    <span class="error_message">{{ $errors->first('email') }}</span>
+                @endif
+            </div>
 
-            @if ($errors->has('password'))
-                <span class="error_message">{{ $errors->first('password') }}</span>
-            @endif
-            <input type="password" class="text_field" name="password" placeholder="Пароль*">
+            <div class="form-group">
+                <input type="password" name="password" placeholder="Пароль*">
+                @if ($errors->has('password'))
+                    <span class="error_message">{{ $errors->first('password') }}</span>
+                @endif
+            </div>
 
-            @if ($errors->has('password_confirmation'))
-                <span class="error_message">{{ $errors->first('password_confirmation') }}</span>
-            @endif
-            <input type="password" class="text_field" name="password_confirmation" placeholder="Повтор пароля*">
+            <div class="form-group">
+                <input type="password" name="password_confirmation" placeholder="Повтор пароля*">
+                @if ($errors->has('password_confirmation'))
+                    <span class="error_message">{{ $errors->first('password_confirmation') }}</span>
+                @endif
+            </div>
 
-            @if ($errors->has('confirm_politic'))
-                <span class="error_message">Необходимо ознакомиться с политикой конфиденциальности.</span>
-            @endif
-            <p><input type="checkbox" name="confirm_politic"> Я ознакомился с политикой конфиденциальности и принимаю ее условия.</p>
+            <div class="form-group">
+                <span><input type="checkbox" name="confirm_politic"> Я ознакомился с <a href="{{ asset('uploads/politikaconf.rtf') }}">политикой конфиденциальности</a> и принимаю ее условия.</span>
+                @if ($errors->has('confirm_politic'))
+                    <span class="error_message">Необходимо ознакомиться с политикой конфиденциальности.</span>
+                @endif
+            </div>
 
             <div class="row"><input type="submit" value="Регистрация"> <a href="{{ route('login') }}">Вход</a></div>
         </form>

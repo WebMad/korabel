@@ -24,7 +24,11 @@ class DocumentsController extends Controller
         $filePath = $destinationPath.'/'.$fileName. '.' .$file->getClientOriginalExtension();
         $file->move($destinationPath,$filePath);
 
-        Documents::create(['name' => $request->input('name'), 'file' => $filePath]);
+        Documents::create([
+            'name' => $request->input('name'),
+            'type' => $request->input('type'),
+            'file' => $filePath
+        ]);
 
         Session::flash('msg.status', 'success');
         Session::flash('msg.text', 'Документ добавлен!');

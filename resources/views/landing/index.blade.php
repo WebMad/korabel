@@ -24,14 +24,19 @@
 					<div class="auth_header">Вход в личный кабинет</div>
 					<form method="POST" action="{{ route('login') }}">
 						{{ csrf_field() }}
-						@if($errors->has('email'))
-							<div class="msg-wrong-input">{{ $errors->first('email') }}</div>
-						@endif
-						<input type="text" class="text_field" name="email" placeholder="Электронная почта">
-						@if($errors->has('password'))
-							<div class="msg-wrong-input">{{ $errors->first('password') }}</div>
-						@endif
-						<input type="password" class="text_field" name="password" placeholder="Пароль">
+						<div class="form-group">
+							@if($errors->has('email'))
+								<div class="msg-wrong-input">{{ $errors->first('email') }}</div>
+							@endif
+							<input type="text" name="email" placeholder="Электронная почта">
+						</div>
+
+						<div class="form-group">
+							@if($errors->has('password'))
+								<div class="msg-wrong-input">{{ $errors->first('password') }}</div>
+							@endif
+							<input type="password" name="password" placeholder="Пароль">
+						</div>
 						<div class="row"><input type="submit" value="Вход"> <a href="{{ route('register') }}">Регистрация</a></div>
 					</form>
 				</div>
