@@ -113,9 +113,7 @@ Route::group(['middleware' => 'can:admin-panel','prefix' => 'admin', 'as' => 'ad
         //Route::get('/search/{search}', 'ReceiptController@searchStead')->name('search');
 
     });
-
-
-
+    Route::post('upload-image', 'AdminController@uploadImage');
 });
 
 

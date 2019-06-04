@@ -54,6 +54,8 @@
 
 @yield('footer')
 
+@extends('landing.footer')
+
 @yield('scripts_end')
 
 </body>

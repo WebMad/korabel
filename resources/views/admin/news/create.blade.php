@@ -3,7 +3,7 @@
 @section('title', 'Новости')
 
 @section('head')
-
+    <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 @endsection
 
 @section('content')
@@ -32,4 +32,7 @@
             <input type="submit">
         </form>
     </div>
+    <script>
+        CKEDITOR.replace( 'content' );
+    </script>
 @endsection

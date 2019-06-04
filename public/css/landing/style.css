@@ -5,6 +5,10 @@ body{
 	margin:0;
 	/*background-color: #5aca5a;*/
 	background: url('../../images/landing/background.jpg');
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
+	min-height: 100vh;
 }
 a{
 	text-decoration: none;
@@ -161,11 +165,11 @@ form{
     font-family: Montserrat, sans-serif;
 	margin-bottom: 20px;
 }
+.content{
+	flex-grow: 1;
+}
 .footer{
 	background-color: #ffffff30;
-	position:fixed;
-	width:100%;
-	bottom:0;
 }
 .footer>.container{
 	display:flex;

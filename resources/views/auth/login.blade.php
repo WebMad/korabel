@@ -15,6 +15,7 @@
             </div>
 
             <div class="form-group">
+                <span><a href="{{ route('password.request') }}">Забыли пароль?</a></span>
                 <input type="password" name="password" placeholder="Пароль">
             </div>
 

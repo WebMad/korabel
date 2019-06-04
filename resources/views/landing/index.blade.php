@@ -32,9 +32,7 @@
 						</div>
 
 						<div class="form-group">
-							@if($errors->has('password'))
-								<div class="msg-wrong-input">{{ $errors->first('password') }}</div>
-							@endif
+							<span><a href="{{ route('password.request') }}">Забыли пароль?</a></span>
 							<input type="password" name="password" placeholder="Пароль">
 						</div>
 						<div class="row"><input type="submit" value="Вход"> <a href="{{ route('register') }}">Регистрация</a></div>
@@ -43,10 +41,6 @@
 			@endif
 		</div>
 	</div>
-@endsection
-
-@section('footer')
-	@include('landing.footer')
 @endsection
 
 @section('scripts_end')
