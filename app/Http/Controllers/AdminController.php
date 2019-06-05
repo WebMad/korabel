@@ -21,14 +21,25 @@ class AdminController extends Controller
     public function index(){
 
     }
-    public function users(){
-        return view('admin.users.view', ['users' => User::get()]);
+    public function users(Request $request){
+        $users = ($request->get('search')) ? User::search($request->get('search'))->paginate(30) : User::paginate(30);
+        return view('admin.users.view', [
+            'users' => $users
+        ]);
     }
-    public function news(){
-        return view('admin.news.view', ['news' => News::get()]);
+    public function news(Request $request){
+
+        $news = $request->input('search') ? News::where('header', 'LIKE', '%'. $request->input('search') . '%')->paginate(30) : News::paginate(30);
+
+        return view('admin.news.view', ['news' => $news]);
     }
-    public function documents(){
-        return view('admin.documents.view', ['documents' => Documents::get()]);
+    public function documents(Request $request){
+
+        $documents = $request->input('search') ? Documents::where('name', 'LIKE', '%'. $request->input('search') . '%')->paginate(30) : Documents::paginate(30);
+
+        return view('admin.documents.view', [
+            'documents' => $documents
+        ]);
     }
 
     public function uploadImage(Request $request){

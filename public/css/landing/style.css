@@ -142,7 +142,7 @@ header {
     border-radius: 5px;
 }
 .main-slider{
-	height:600px;
+	margin-top:10%;
 }
 .feedback>.container{
 	padding: 0 20%;

@@ -9,6 +9,7 @@ use App\Documents;
 
 class DocumentsController extends Controller
 {
+
     public function create(){
         return view('admin.documents.create');
     }

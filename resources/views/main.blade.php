@@ -6,7 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/landing/style.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/messages.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/inputs.css') }}">
-	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="{{ asset('images/house-icon.png') }}" type="image/x-icon">
 	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 	<script src="{{ asset('js/script.js') }}"></script>

@@ -63,3 +63,38 @@ h2{
 p {
     padding: 10px 0;
 }
+
+.pagination{
+    list-style: none;
+    display: flex;
+    margin:auto;
+    max-width: fit-content;
+}
+.page-item.active{
+    color:#000000;
+}
+.page-item{
+    font-size: 20px;
+    margin: 5px;
+    background: white;
+    height:auto;
+    border-radius: 3px;
+    padding: 5px 0;
+}
+.page-link{
+    padding: 10px;
+}
+.search-fields{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    width:100%;
+    margin-top:20px;
+}
+#search_btn{
+    width: 150px;
+    margin-left: 20px;
+}
+#search_fields{
+    flex-grow: 1;
+}

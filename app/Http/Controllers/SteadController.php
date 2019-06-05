@@ -16,11 +16,16 @@ class SteadController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request){
+        $steads = DB::table('steads')
+            ->select('steads.id', 'steads.number', 'users.name', 'users.surname', 'users.patronymic')
+            ->leftJoin('users', 'steads.user_id', '=', 'users.id');
+
+        if($request->input('search')){
+            $steads->where('steads.number', 'LIKE', '%'.$request->input('search').'%');
+        }
+
         return view('admin.steads.view', [
-            'steads' => DB::table('steads')
-                ->select('steads.id', 'steads.number', 'users.name', 'users.surname', 'users.patronymic')
-                ->leftJoin('users', 'steads.user_id', '=', 'users.id')
-                ->get()
+            'steads' => $steads->paginate(30),
         ]);
     }
 

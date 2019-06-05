@@ -7,7 +7,7 @@
 		<div class="container">
 			<div class="advantages">
 				<div class="advantage">
-					<div class="header_advantage">Удобство</div>
+					<div class="header_advantage">Удобно</div>
 					<div class="text_advantage">Используйте этот интернет-портал, чтобы получать информацию о сообществе в кратчайшие сроки. Новости, квитанции, документы, контакты - все это доступно в одном месте!</div>
 				</div>
 				<div class="advantage">

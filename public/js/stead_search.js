@@ -9,25 +9,25 @@ $( document ).ready(function(){
     setInterval(function() {
         if(last_value != $('#search_stead').val()){
             last_value = $('#search_stead').val();
-            $('#search_stead').trigger('change');
+            searchStead();
         }
 
     }, 1000);
-
-    $('#search_stead').on('change', function(){
-        $.ajax({
-            url: '/admin/steads/search/' + $('#search_stead').val(),
-        }).done(function (data) {
-            for(var i=steads.length; i>count_delete; i--){
-                steads.removeChild(steads.children[count_delete]);
-            }
-            data.forEach(function (value) {
-                div = document.createElement('option');
-                div.innerHTML = value.number + ' - ' + value.surname + ' ' + value.name + ' ' + value.patronymic;
-                div.setAttribute('value', value.id);
-                document.getElementById('steads').appendChild(div);
-            });
-
-        });
-    });
 });
+
+function searchStead() {
+    $.ajax({
+        url: '/admin/steads/search/' + $('#search_stead').val(),
+    }).done(function (data) {
+        for (var i = steads.length; i > count_delete; i--) {
+            steads.removeChild(steads.children[count_delete]);
+        }
+        data.forEach(function (value) {
+            div = document.createElement('option');
+            div.innerHTML = value.number + ' - ' + value.surname + ' ' + value.name + ' ' + value.patronymic;
+            div.setAttribute('value', value.id);
+            document.getElementById('steads').appendChild(div);
+        });
+
+    });
+}

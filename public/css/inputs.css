@@ -10,7 +10,7 @@ input[type='text'], input[type='email'], input[type='password'], textarea, selec
     font-family: Montserrat, sans-serif;
     outline:0;
 }
-form input[type="submit"]{
+input[type="submit"]{
     border-radius: 5px;
     padding: 5px;
     font-size: 20px;

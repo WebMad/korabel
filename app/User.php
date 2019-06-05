@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -36,4 +37,24 @@ class User extends Authenticatable
     protected $casts = [
         //'email_verified_at' => 'datetime',
     ];
+
+    static public function search($string){
+        $string = explode(' ', $string);
+
+        $select = DB::table('users');
+
+        if(isset($string[0])){
+            $select->where('surname', 'LIKE', "%$string[0]%");
+        }
+        if(isset($string[1])){
+            $select->where('name', 'LIKE', "%$string[1]%");
+        }
+        if(isset($string[2])){
+            $select->where('patronymic', 'LIKE', "%$string[2]%");
+        }
+
+        return $select;
+
+    }
+
 }

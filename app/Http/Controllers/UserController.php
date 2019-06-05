@@ -117,21 +117,9 @@ class UserController extends Controller
 
     public function searchUser($string = ''){
 
-        $string = explode(' ', $string);
+        $users = User::search($string)->get();
 
-        $select = DB::table('users');
-
-        if(isset($string[0])){
-            $select->where('surname', 'LIKE', "%$string[0]%");
-        }
-        if(isset($string[1])){
-            $select->where('name', 'LIKE', "%$string[1]%");
-        }
-        if(isset($string[2])){
-            $select->where('patronymic', 'LIKE', "%$string[2]%");
-        }
-
-        return response()->json($select->get());
+        return response()->json($users);
     }
 
     public static function hasRole($role){

@@ -26,13 +26,18 @@ class ReceiptController extends Controller
         'декабрь'
     ];
 
-    public function index(){
+    public function index(Request $request){
+        $receipts = DB::table('receipts')
+            ->select('receipts.*', 'steads.number')
+            ->leftJoin('steads', 'steads.id', '=', 'receipts.stead_id')
+            ->orderBy('receipts.id');
+
+        if($request->get('search')){
+            $receipts->where('steads.number', 'LIKE', '%'.$request->get('search').'%');
+        }
+
         return view('admin.receipts.view', [
-            'receipts' => DB::table('receipts')
-                ->select('receipts.*', 'steads.number')
-                ->leftJoin('steads', 'steads.id', '=', 'receipts.stead_id')
-                ->orderBy('receipts.id')
-                ->get(),
+            'receipts' => $receipts->paginate(30),
             'months' => $this->months,
         ]);
     }

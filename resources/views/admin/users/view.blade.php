@@ -7,36 +7,37 @@
 @endsection
 
 @section('content')
-    <div class="container">
-        <h2>Пользователи</h2>
-        <span><a href="{{ route('admin.users.create') }}">Добавить</a></span>
-        <table>
-            <thead>
-            <tr>
-                <th width="5%">ID</th>
-                <th width="11%">Фамилия</th>
-                <th width="11%">Имя</th>
-                <th width="15%">email</th>
-                <th width="15%">Статус</th>
-                <th width="20%">Действие</th>
-            </tr>
-            </thead>
-            <tbody>
-                @foreach($users as $user)
-                    <tr>
-                        <td>{{ $user['id'] }}</td>
-                        <td>{{ $user['surname'] }}</td>
-                        <td>{{ $user['name'] }}</td>
-                        <td>{{ $user['email'] }}</td>
-                        <td>{{ $user['active'] == 1 ? 'Активный' : 'Неактивный' }}</td>
-                        <td>
-                            <a href="{{ route('admin.users.edit',['id'=>$user['id']]) }}">Редактировать</a>
-                            |
-                            <a href="{{ route('admin.users.delete', ['id' => $user['id']]) }}">Удалить</a>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+    <h2>Пользователи</h2>
+    <span><a href="{{ route('admin.users.create') }}">Добавить</a></span>
+    <form class="search-fields">
+        <input type="text" name="search" value="{{ Request::get('search') }}" placeholder="ФИО" id="search_fields"><input type="submit" id="search_btn" value="искать">
+    </form>
+    <table>
+        <thead>
+        <tr>
+            <th width="5%">ID</th>
+            <th width="11%">Фамилия</th>
+            <th width="11%">Имя</th>
+            <th width="15%">email</th>
+            <th width="15%">Статус</th>
+            <th width="20%">Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+            @foreach($users as $user)
+                <tr>
+                    <td>{{ $user->id }}</td>
+                    <td>{{ $user->surname }}</td>
+                    <td>{{ $user->name }}</td>
+                    <td>{{ $user->email }}</td>
+                    <td>{{ $user->active == 1 ? 'Активный' : 'Неактивный' }}</td>
+                    <td>
+                        <a href="{{ route('admin.users.edit',['id'=>$user->id]) }}">Редактировать</a>
+                        |
+                        <a href="{{ route('admin.users.delete', ['id' => $user->id]) }}">Удалить</a>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
 @endsection

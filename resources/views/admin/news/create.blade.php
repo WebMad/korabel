@@ -7,31 +7,29 @@
 @endsection
 
 @section('content')
-    <div class="container">
-        <a href="{{ route('admin.news.index') }}">Назад</a>
-        <h2>Создание новости</h2>
-        <form action="{{ route('admin.news.store') }}" method="post">
-            {{ csrf_field() }}
+    <a href="{{ route('admin.news.index') }}">Назад</a>
+    <h2>Создание новости</h2>
+    <form action="{{ route('admin.news.store') }}" method="post">
+        {{ csrf_field() }}
 
-            <div class="form-group">
-                <span>Заголовок:</span>
-                <input type="text" name="header" placeholder="Заголовок">
-                @if ($errors->has('header'))
-                    <span class="error_message">{{ $errors->first('header') }}</span>
-                @endif
-            </div>
+        <div class="form-group">
+            <span>Заголовок:</span>
+            <input type="text" name="header" placeholder="Заголовок">
+            @if ($errors->has('header'))
+                <span class="error_message">{{ $errors->first('header') }}</span>
+            @endif
+        </div>
 
-            <div class="form-group">
-                <span>Текст новости:</span>
-                <textarea name="content" placeholder="Текст новости"></textarea>
-                @if ($errors->has('content'))
-                    <span class="error_message">{{ $errors->first('content') }}</span>
-                @endif
-            </div>
+        <div class="form-group">
+            <span>Текст новости:</span>
+            <textarea name="content" placeholder="Текст новости"></textarea>
+            @if ($errors->has('content'))
+                <span class="error_message">{{ $errors->first('content') }}</span>
+            @endif
+        </div>
 
-            <input type="submit">
-        </form>
-    </div>
+        <input type="submit">
+    </form>
     <script>
         CKEDITOR.replace( 'content' );
     </script>
