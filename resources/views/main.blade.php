@@ -15,8 +15,8 @@
 <body>
 <header>
 	<a href="{{ route('landing') }}" class="logo">
-		<div class="logo-text">{{ \App\Http\Controllers\InfoController::getInfo()['site_name'] }}</div>
-		<div class="logo-desc">{{ \App\Http\Controllers\InfoController::getInfo()['site_subname'] }}</div>
+		<div class="logo-text">{{ isset($info['site_name']) ? $info['site_name'] : ''  }}</div>
+		<div class="logo-desc">{{ isset($info['site_subname']) ? $info['site_subname'] : '' }}</div>
 	</a>
 	<div class="menu">
 		<a href="{{ route('landing') }}" class="element">Главная</a>

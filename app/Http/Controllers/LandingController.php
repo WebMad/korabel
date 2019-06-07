@@ -27,7 +27,10 @@ class LandingController extends Controller
     ];
 
     public function index(Request $request) {
-        return view('landing.index', ['news' => News::get()]);
+        return view('landing.index', [
+            'news' => News::get(),
+            'info' => InfoController::getInfo(),
+        ]);
     }
     public function contacts(){
         return view('contacts', ['info' => InfoController::getInfo()]);
