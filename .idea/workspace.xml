@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="66f79d5b-277e-4f84-924f-4a4dec379d4c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/lang/ru/ru.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Notifications/ResetPassword.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Notifications/ResetPassword.php" afterDir="false" />
-    </list>
+    <list default="true" id="66f79d5b-277e-4f84-924f-4a4dec379d4c" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,8 +107,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/app/Notifications/ResetPassword.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="221">
-                  <caret line="57" column="76" selection-start-line="57" selection-start-column="76" selection-end-line="57" selection-end-column="76" />
+                <state relative-caret-position="204">
+                  <caret line="56" column="118" selection-start-line="56" selection-start-column="118" selection-end-line="56" selection-end-column="118" />
                   <folding>
                     <element signature="e#37#66#0#PHP" expanded="true" />
                   </folding>
@@ -529,12 +525,12 @@
       <workItem from="1559974559514" duration="27000" />
       <workItem from="1560056533257" duration="209000" />
       <workItem from="1560056942418" duration="1701000" />
-      <workItem from="1560058899669" duration="12747000" />
+      <workItem from="1560058899669" duration="12909000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="257528000" />
+    <option name="totallyTimeSpent" value="257690000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
@@ -900,8 +896,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Notifications/ResetPassword.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="57" column="76" selection-start-line="57" selection-start-column="76" selection-end-line="57" selection-end-column="76" />
+        <state relative-caret-position="204">
+          <caret line="56" column="118" selection-start-line="56" selection-start-column="118" selection-end-line="56" selection-end-column="118" />
           <folding>
             <element signature="e#37#66#0#PHP" expanded="true" />
           </folding>

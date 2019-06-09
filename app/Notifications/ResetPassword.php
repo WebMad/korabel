@@ -55,7 +55,6 @@ class ResetPassword extends ResetPasswordNotification
             ->action(Lang::getFromJson('Восстановление пароля'), url(config('app.url').route('password.reset', $this->token, false)))
             ->line(Lang::getFromJson('Срок действия ссылки для сброса пароля истекает через :count минут.', ['count' => config('auth.passwords.users.expire')]))
             ->line(Lang::getFromJson('Если вы не запрашивали сброс пароля, никаких дальнейших действий не требуется.')
-            ->salutation(Lang::getFromJson("С уважением,<br>СНТ «КОРАБЕЛ»"))
             );
     }
 
