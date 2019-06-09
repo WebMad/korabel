@@ -15,8 +15,8 @@
 <body>
 <header>
 	<a href="{{ route('landing') }}" class="logo">
-		<div class="logo-text">{{ isset($info['site_name']) ? $info['site_name'] : ''  }}</div>
-		<div class="logo-desc">{{ isset($info['site_subname']) ? $info['site_subname'] : '' }}</div>
+		<div class="logo-text">{{ isset(App\Http\Controllers\InfoController::getInfo()['site_name']) ? App\Http\Controllers\InfoController::getInfo()['site_name'] : '' }}</div>
+		<div class="logo-desc">{{ isset(App\Http\Controllers\InfoController::getInfo()['site_subname']) ? App\Http\Controllers\InfoController::getInfo()['site_subname'] : '' }}</div>
 	</a>
 	<div class="menu">
 		<a href="{{ route('landing') }}" class="element">Главная</a>
@@ -26,13 +26,13 @@
 		@auth
 			<a href="{{ route('cabinet.index') }}" class="element">Кабинет</a>
 		@endif
-		<!--<div class="element">Объявления</div>-->
+	<!--<div class="element">Объявления</div>-->
 		@yield('menu')
 	</div>
 	@guest
 		<div class="contacts">
 			<div class="phone-icon"></div>
-			<div class="phone">{{ \App\Http\Controllers\InfoController::getInfo()['site_phone'] }}</div>
+			<div class="phone">{{ isset(App\Http\Controllers\InfoController::getInfo()['site_phone']) ? App\Http\Controllers\InfoController::getInfo()['site_phone'] : '' }}</div>
 		</div>
 	@else
 		<div class="user_sb">

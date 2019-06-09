@@ -64,6 +64,9 @@
                     <span class="error_message">Необходимо ознакомиться с политикой конфиденциальности.</span>
                 @endif
             </div>
+            <div class="form-group">
+                {!! Captcha::display($attributes = [], $options = ['lang'=> 'ru']) !!}
+            </div>
 
             <div class="row"><input type="submit" value="Регистрация"> <a href="{{ route('login') }}">Вход</a></div>
         </form>

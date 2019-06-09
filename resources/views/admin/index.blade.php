@@ -14,7 +14,7 @@
 
         <div class="form-group">
             <span>Название сайта:</span>
-            <input type="text" name="site_name" placeholder="Название сайта" value="{{ $info['site_name'] }}">
+            <input type="text" name="site_name" placeholder="Название сайта" value="{{ isset($info['site_name']) ? $info['site_name'] : '' }}">
         </div>
 
         <div class="form-group">
