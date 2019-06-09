@@ -56,7 +56,6 @@ class ResetPassword extends ResetPasswordNotification
             ->line(Lang::getFromJson('Срок действия ссылки для сброса пароля истекает через :count минут.', ['count' => config('auth.passwords.users.expire')]))
             ->line(Lang::getFromJson('Если вы не запрашивали сброс пароля, никаких дальнейших действий не требуется.')
             ->salutation(Lang::getFromJson("С уважением,<br>СНТ «КОРАБЕЛ»"))
-            ->markdown('123')
             );
     }
 
