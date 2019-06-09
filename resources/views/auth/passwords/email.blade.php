@@ -5,6 +5,12 @@
 @section('content')
     <div class="login">
         <h2>Восстановление пароля</h2>
+        @if (session('status'))
+            <div class="msg-box success">
+                <div class="msg-text">{{ session('status') }}</div>
+                <div class="msg-close"></div>
+            </div>
+        @endif
         <form action="{{ route('password.email') }}" method="post" class="login_form">
             @csrf
 
