@@ -20,7 +20,7 @@ class CreateReceiptsTable extends Migration
                 ->nullable();
 
             $table->string('file');
-            $table->date('date_receipt');
+            $table->string('date_receipt');
             $table->timestamps();
 
             $table->foreign('stead_id')

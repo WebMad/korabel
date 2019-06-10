@@ -91,6 +91,8 @@ class ReceiptController extends Controller
         $file_name = time();
         $steads_list = [];
 
+        $receipts = [];
+
         foreach($files as $file){
             $stead = Stead::where('number', mb_substr($file->getClientOriginalName(), 0, -4))->get()->first();
             if(count($stead)>0) {
