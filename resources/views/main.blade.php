@@ -30,9 +30,8 @@
 		@yield('menu')
 	</div>
 	@guest
-		<div class="contacts">
-			<div class="phone-icon"></div>
-			<div class="phone">{{ isset(App\Http\Controllers\InfoController::getInfo()['site_phone']) ? App\Http\Controllers\InfoController::getInfo()['site_phone'] : '' }}</div>
+		<div class="auth-header">
+			<a href="{{ route('login') }}">Войти</a>
 		</div>
 	@else
 		<div class="user_sb">

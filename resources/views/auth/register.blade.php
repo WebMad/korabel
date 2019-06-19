@@ -5,12 +5,13 @@
 @section('content')
     <div class="login">
         <h2>Регистрация</h2>
+        <p>Внимание! Регистрация разрешена лишь для собственников участков на территории данного садоводческого товарищества, в противном случае ваш аккаунт будет удален.</p>
         <p>* - обязательное поле</p>
         <form action="{{ route('register') }}" method="post" class="login_form">
             {{ csrf_field() }}
 
             <div class="form-group">
-                <input type="text" name="surname" placeholder="Фамилия">
+                <input type="text" name="surname" placeholder="Фамилия*">
                 @if ($errors->has('surname'))
                     <span class="error_message">{{ $errors->first('surname') }}</span>
                 @endif

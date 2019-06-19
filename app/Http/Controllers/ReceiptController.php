@@ -95,7 +95,7 @@ class ReceiptController extends Controller
 
         foreach($files as $file){
             $stead = Stead::where('number', mb_substr($file->getClientOriginalName(), 0, -4))->get()->first();
-            if(count($stead)>0) {
+            if($stead) {
 
                 $destination_path = 'uploads/receipts';
                 $file_name++;

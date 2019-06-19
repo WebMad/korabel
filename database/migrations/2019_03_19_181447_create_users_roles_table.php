@@ -15,8 +15,18 @@ class CreateUsersRolesTable extends Migration
     {
         Schema::create('UsersRole', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_user');
-            $table->integer('id_role');
+            $table->integer('id_user')->unsigned()->nullable();
+            $table->foreign('id_user')->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+
+            $table->integer('id_role')->unsigned()->nullable();
+
+
+
+            $table->foreign('id_role')->references('id')
+                ->on('roles')
+                ->onDelete('cascade');
         });
     }
 

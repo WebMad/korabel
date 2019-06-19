@@ -30,7 +30,7 @@ class UserController extends Controller
             'email' => 'required|unique:users',
             'password' => 'required|confirmed',
             'name' => 'required',
-            'surname' => '',
+            'surname' => 'required',
             'patronymic' => '',
             'phone' => '',
         ])->validate();
