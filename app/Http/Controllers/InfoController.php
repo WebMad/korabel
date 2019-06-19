@@ -10,7 +10,6 @@ class InfoController extends Controller
     public $information_types = [
         'site_name',
         'site_subname',
-        'site_phone',
         'contact_phone',
         'contact_email',
         'contact_address',

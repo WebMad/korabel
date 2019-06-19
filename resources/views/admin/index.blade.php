@@ -23,12 +23,6 @@
                    value="{{ isset($info['site_subname']) ? $info['site_subname'] : ''}}">
         </div>
 
-        <div class="form-group">
-            <span>Телефон в заголовке сайта:</span>
-            <input type="text" name="site_phone" placeholder="Телефон в заголовке сайта"
-                   value="{{ isset($info['site_phone']) ? $info['site_phone'] : ''}}">
-        </div>
-
         <h2>Контактная информация</h2>
 
         <div class="form-group">
