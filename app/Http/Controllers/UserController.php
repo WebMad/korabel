@@ -59,9 +59,11 @@ class UserController extends Controller
     public function update(Request $request, $id = null){
         if($id == null){
             $id =  Auth::user()->id;
+            $fields = $request->only('phone', 'name', 'surname', 'patronymic');
         }
-
-        $fields = $request->only('phone', 'name', 'surname', 'patronymic', 'active');
+        else{
+            $fields = $request->only('phone', 'name', 'surname', 'patronymic', 'active');
+        }
         if(!empty($request->input('password'))){
             $fields['password'] = $request->input('password');
             $fields['password_confirmation'] = $request->input('password_confirmation');
