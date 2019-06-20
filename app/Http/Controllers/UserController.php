@@ -59,11 +59,23 @@ class UserController extends Controller
     public function update(Request $request, $id = null){
         if($id == null){
             $id =  Auth::user()->id;
-            $fields = $request->only('phone', 'name', 'surname', 'patronymic');
+
         }
         else{
-            $fields = $request->only('phone', 'name', 'surname', 'patronymic', 'active');
+            if ($request->input('is_admin')) {
+                UsersRole::create([
+                    'id_user' => $id,
+                    'id_role' => Role::where('name', 'admin-panel')->first()->value('id')
+                ]);
+            } else {
+                UsersRole::where([
+                    'id_user' => $id,
+                    'id_role' => Role::where('name', 'admin-panel')->first()->value('id')
+                ])->delete();
+            }
         }
+
+        $fields = $request->only('phone', 'name', 'surname', 'patronymic', 'active');
         if(!empty($request->input('password'))){
             $fields['password'] = $request->input('password');
             $fields['password_confirmation'] = $request->input('password_confirmation');
@@ -85,18 +97,6 @@ class UserController extends Controller
             'surname' => 'max:255',
             'patronymic' => 'max:255',
         ])->validate();
-
-        if ($request->input('is_admin')) {
-            UsersRole::create([
-                'id_user' => $id,
-                'id_role' => Role::where('name', 'admin-panel')->first()->value('id')
-            ]);
-        } else {
-            UsersRole::where([
-                'id_user' => $id,
-                'id_role' => Role::where('name', 'admin-panel')->first()->value('id')
-            ])->delete();
-        }
 
         //dd($fields);
 
