@@ -3,6 +3,7 @@
 <head>
 	<title>СНТ КОРАБЕЛ - @yield('title')</title>
 	<meta charset="utf-8">
+	<meta name="yandex-verification" content="49ba18a912016474" />
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/landing/style.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/messages.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/inputs.css') }}">
