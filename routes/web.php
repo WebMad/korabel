@@ -18,6 +18,10 @@ Route::get('/', 'LandingController@index')->name('landing');
 Route::get('/contacts', 'LandingController@contacts')->name('contacts');
 Route::get('/documents', 'LandingController@documents')->name('documents');
 
+Route::get('/policy', function(){
+    return view('policy');
+})->name('policy');
+
 Auth::routes(['register' => true]);
 
 //News routes
