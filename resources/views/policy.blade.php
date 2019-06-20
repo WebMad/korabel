@@ -1,6 +1,6 @@
 @extends('main')
 
-@section('title', 'Новости')
+@section('title', 'Политика конфиденциальности')
 
 @section('head')
     <link type="text/css" rel="stylesheet" href="{{ asset('css/news.css') }}">
