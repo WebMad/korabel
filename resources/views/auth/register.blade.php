@@ -60,7 +60,7 @@
             </div>
 
             <div class="form-group">
-                <span><input type="checkbox" name="confirm_politic"> Я ознакомился с <a href="{{ asset('uploads/politikaconf.rtf') }}">политикой конфиденциальности</a> и принимаю ее условия.</span>
+                <span><input type="checkbox" name="confirm_politic"> Я ознакомился с <a href="{{ route('policy') }}">политикой конфиденциальности</a> и принимаю ее условия.</span>
                 @if ($errors->has('confirm_politic'))
                     <span class="error_message">Необходимо ознакомиться с политикой конфиденциальности.</span>
                 @endif
