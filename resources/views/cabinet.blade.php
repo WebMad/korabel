@@ -91,7 +91,7 @@
                                 <div class="number-stead">Участок №{{ $stead->number }}</div>
                                 <div class="receipts-stead">
                                     @foreach($stead->receipts as $receipt)
-                                        <a href="{{ $receipt['file'] }}" class="receipt-file">
+                                        <a href="{{ $receipt['file'] }}" target="_blank" class="receipt-file">
                                             <div class="receipt-name">{{ $months[date('n',strtotime($receipt->date_receipt))-1] . ' ' . date('Y',strtotime($receipt->date_receipt)) }}</div>
                                         </a>
                                     @endforeach
