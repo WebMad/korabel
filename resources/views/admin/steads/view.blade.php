@@ -36,4 +36,5 @@
             @endforeach
         </tbody>
     </table>
+    {{ $steads->links() }}
 @endsection
