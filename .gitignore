@@ -5,7 +5,7 @@
 /public/documents/*
 /public/news/*
 /public/receipts/*
-
+/.idea
 /storage/*.key
 /vendor
 .env
