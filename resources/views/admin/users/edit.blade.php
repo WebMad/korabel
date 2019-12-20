@@ -10,7 +10,8 @@
     <a href="{{ route('admin.users.index') }}">Назад</a>
     <h2>Редактирование пользователя</h2>
     <form action="{{ route('admin.users.update', ['id' => $user['id']]) }}" method="post">
-        {{ csrf_field() }}
+        @csrf
+        @method('put')
 
         <div class="form-group">
             <span>Фамилия</span>

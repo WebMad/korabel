@@ -21,7 +21,7 @@
                         </div>
                     @endif
                     <p><b>Статус:</b> {{ $user['active'] == 0 ? 'неактивный, администратор проверяет вашу информацию, поcле чего вы получите полный доступ ко всем функциям сайта.' : 'активный'}}</p>
-                    <form action="{{ route('cabinet.user.update')}}" method="post">
+                    <form action="{{ route('cabinet.user.update', ['id' => Auth::user()->id])}}" method="post">
                         @csrf
 
                         <div class="form-group">

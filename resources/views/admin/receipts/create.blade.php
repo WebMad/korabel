@@ -32,14 +32,6 @@
             <span>Участок:</span>
             <input type="text" placeholder="Поиск участка" id="search_stead">
             <select id="steads" name="stead_id" size="5">
-                @foreach($steads as $stead)
-                    <option class="user" value="{{ $stead->id }}">
-                        {{ $stead->number }} -
-                        {{ $stead->surname }}
-                        {{ $stead->name }}
-                        {{ $stead->patronymic }}
-                    </option>
-                @endforeach
             </select>
             @if ($errors->has('stead_id'))
                 <span class="error_message">Выберите участок</span>

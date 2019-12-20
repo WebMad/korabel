@@ -10,7 +10,7 @@
     <a href="{{ route('admin.news.index') }}">Назад</a>
     <h2>Создание новости</h2>
     <form action="{{ route('admin.news.store') }}" method="post">
-        {{ csrf_field() }}
+        @csrf
 
         <div class="form-group">
             <span>Заголовок:</span>

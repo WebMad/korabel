@@ -11,4 +11,5 @@ class News extends Model
         'header',
         'content',
     ];
+
 }

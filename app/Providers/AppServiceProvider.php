@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Controllers\SiteInfoController;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +24,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        view()->composer('main', function($view)
+        {
+            $site_infos = SiteInfoController::getInfo();
+            $view->with('site_infos', $site_infos);
+        });
     }
 }

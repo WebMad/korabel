@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\SteadService;
+use App\Services\UserService;
 use App\Stead;
 use App\User;
 use Illuminate\Http\Request;
@@ -10,18 +12,32 @@ use Illuminate\Support\Facades\Session;
 
 class SteadController extends Controller
 {
+
+    private $steadService;
+    private $userService;
+
+    /**
+     * SteadController constructor.
+     * @param SteadService $steadService
+     */
+    public function __construct(SteadService $steadService, UserService $userService)
+    {
+        $this->steadService = $steadService;
+        $this->userService = $userService;
+    }
+
     /**
      * View all steads
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index(Request $request){
-        $steads = DB::table('steads')
-            ->select('steads.id', 'steads.number', 'users.name', 'users.surname', 'users.patronymic')
-            ->leftJoin('users', 'steads.user_id', '=', 'users.id');
+    public function index(Request $request)
+    {
 
-        if($request->input('search')){
-            $steads->where('steads.number', 'LIKE', '%'.$request->input('search').'%');
+        $steads = $this->steadService->all(['user']);
+
+        if ($request->input('search')) {
+            $steads->where('steads.number', 'LIKE', '%' . $request->input('search') . '%');
         }
 
         return view('admin.steads.view', [
@@ -33,14 +49,10 @@ class SteadController extends Controller
      * Create new stead
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create(){
+    public function create()
+    {
 
-        return view('admin.steads.create', [
-            'users' =>
-                DB::table('users')
-                    ->select('id', 'surname', 'name', 'patronymic')
-                    ->get()
-        ]);
+        return view('admin.steads.create');
     }
 
     /**
@@ -48,7 +60,8 @@ class SteadController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $request->validate([
             'number' => 'required',
             'user_id' => '',
@@ -67,13 +80,12 @@ class SteadController extends Controller
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit($id){
-        $stead = Stead::findOrFail($id);
+    public function edit($id)
+    {
+        $stead = $this->steadService->find($id, ['user']);
 
         return view('admin.steads.edit', [
             'stead' => $stead,
-            'users' => User::all(),
-            'user' => User::find($stead->user_id)
         ]);
     }
 
@@ -83,8 +95,9 @@ class SteadController extends Controller
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id){
-        $stead = Stead::findOrFail($id);
+    public function update(Request $request, $id)
+    {
+        $stead = $this->steadService->find($id);
 
         $request->validate([
             'number' => 'required',
@@ -104,7 +117,8 @@ class SteadController extends Controller
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function delete($id){
+    public function delete($id)
+    {
         Stead::destroy($id);
 
         Session::flash('msg.status', 'success');
@@ -113,12 +127,9 @@ class SteadController extends Controller
         return back();
     }
 
-    public function searchStead($number = ''){
-        return response()->json(
-            Stead::where('number', 'LIKE', "%$number%")
-                ->select('steads.id', 'steads.number', 'users.surname', 'users.name', 'users.patronymic')
-                ->join('users', 'users.id', '=', 'steads.user_id')
-                ->get()
-        );
+    public function searchStead(Request $request)
+    {
+        $number = $request->get('search');
+        return response()->json($this->steadService->all(['user'])->limit(30)->where('number', 'LIKE', "%$number%")->get());
     }
 }

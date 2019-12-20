@@ -43,12 +43,7 @@ class ReceiptController extends Controller
     }
 
     public function create(){
-        return view('admin.receipts.create', [
-            'steads' => DB::table('steads')
-                ->select('steads.id', 'steads.number', 'users.surname', 'users.name', 'users.patronymic')
-                ->join('users', 'users.id', '=', 'steads.user_id')
-                ->get()
-        ]);
+        return view('admin.receipts.create');
     }
     public function store(Request $request){
         $request->validate([

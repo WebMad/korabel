@@ -11,13 +11,6 @@ use App\User;
 
 class AdminController extends Controller
 {
-    public function __construct()
-    {
-        if(!UserController::hasRole('show-admin-panel')){
-            return redirect('/');
-        }
-    }
-
     public function index(){
 
     }

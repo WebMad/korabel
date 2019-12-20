@@ -26,24 +26,42 @@ class LandingController extends Controller
         'декабрь'
     ];
 
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         return view('landing.index', [
             'news' => News::get(),
-            'info' => InfoController::getInfo(),
-        ]);
-    }
-    public function contacts(){
-        return view('contacts', ['info' => InfoController::getInfo()]);
-    }
-    public function documents(){
-        return view('documents', [
-            'documents' => Documents::get()->where('type','default'),
-            'patterns' => Documents::get()->where('type','pattern'),
-            'protocols' => Documents::get()->where('type','protocol'),
+            'info' => SiteInfoController::getInfo(),
         ]);
     }
 
-    public function cabinet(){
+    public function news($id = null){
+        if(isset($id)){
+            $new = News::find($id);
+            if(isset($new['id'])) {
+                return view('news.more', ['new' => $new]);
+            }
+            return redirect(route('news'));
+        }
+        $news = News::orderBy('id', 'desc')->paginate(5);
+        return view('news.view', ['news' => $news]);
+    }
+
+    public function contacts()
+    {
+        return view('contacts', ['info' => SiteInfoController::getInfo()]);
+    }
+
+    public function documents()
+    {
+        return view('documents', [
+            'documents' => Documents::get()->where('type', 'default'),
+            'patterns' => Documents::get()->where('type', 'pattern'),
+            'protocols' => Documents::get()->where('type', 'protocol'),
+        ]);
+    }
+
+    public function cabinet()
+    {
         $steads = Stead::with('receipts')->where('user_id', Auth::user()->id)->get();
         return view('cabinet', [
             'user' => Auth::user(),

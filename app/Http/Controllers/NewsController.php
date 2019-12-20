@@ -10,16 +10,11 @@ use Illuminate\Support\Facades\Session;
 
 class NewsController extends Controller
 {
-    public function index($id = null){
-        if(isset($id)){
-            $new = News::find($id);
-            if(isset($new['id'])) {
-                return view('news.more', ['new' => $new]);
-            }
-            return redirect(route('news'));
-        }
-        $news = News::orderBy('id', 'desc')->paginate(5);
-        return view('news.view', ['news' => $news]);
+    public function index(Request $request){
+
+        $news = $request->input('search') ? News::where('header', 'LIKE', '%'. $request->input('search') . '%')->paginate(30) : News::paginate(30);
+
+        return view('admin.news.view', ['news' => $news]);
     }
 
     public function create(){
@@ -65,7 +60,7 @@ class NewsController extends Controller
         return redirect(route('admin.news.index'));
     }
 
-    public function delete($id){
+    public function destroy($id){
 
         $files = DB::table('images_news')->where('new_id', $id)->get();
         foreach($files as $file){

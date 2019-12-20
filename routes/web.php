@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Middleware\CheckRights;
-use App\News;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +25,7 @@ Route::get('/policy', function(){
 Auth::routes(['register' => true]);
 
 //News routes
-Route::get('/news/{id?}', 'NewsController@index')->name('news')->where('id', '[0-9]+');
+Route::get('/news/{id?}', 'LandingController@news')->name('news')->where('id', '[0-9]+');
 
 //Users routes
 Route::group(['middleware' => 'auth', 'prefix' => 'cabinet', 'as' => 'cabinet.'], function(){
@@ -34,22 +34,15 @@ Route::group(['middleware' => 'auth', 'prefix' => 'cabinet', 'as' => 'cabinet.']
 });
 
 //Admin routes
-Route::group(['middleware' => 'can:admin-panel','prefix' => 'admin', 'as' => 'admin.'], function(){
+Route::group(['middleware' => ['auth', 'admin'],'prefix' => 'admin', 'as' => 'admin.'], function(){
 
-    Route::get('/', 'InfoController@index')->name('index');
-    Route::post('/', 'InfoController@update')->name('update');
+    Route::get('/', 'SiteInfoController@index')->name('index');
+    Route::post('/', 'SiteInfoController@update')->name('update');
 
+    Route::resource('news', 'NewsController')->except('show');
     //News admin routes
-    Route::group(['prefix' => 'news', 'as' => 'news.'], function(){
-        Route::get('/', 'AdminController@news')->name('index');
+    Route::group(['prefix' => 'admin', 'as' => 'news.'], function(){
 
-        Route::get('/create', 'NewsController@create')->name('create');
-        Route::post('/store', 'NewsController@store')->name('store');
-
-        Route::get('/edit/{id}', 'NewsController@edit')->name('edit');
-        Route::post('/update/{id}', 'NewsController@update')->name('update');
-
-        Route::get('/delete/{id}', 'NewsController@delete')->name('delete');
     });
 
     //Documents admin routes
@@ -66,35 +59,19 @@ Route::group(['middleware' => 'can:admin-panel','prefix' => 'admin', 'as' => 'ad
     });
 
     //Users admin routes
+    Route::resource('users', 'UserController')->except('show');
     Route::group(['prefix' => 'users', 'as' => 'users.'], function(){
-        Route::get('/', 'AdminController@users')->name('index');
-
-        Route::get('/create', 'UserController@create')->name('create');
-        Route::post('/store', 'UserController@store')->name('store');
-
-        Route::get('/edit/{id}', 'UserController@edit')->name('edit');
-        Route::post('/update/{id}', 'UserController@update')->name('update');
-
-        Route::get('/delete/{id}', 'UserController@delete')->name('delete');
-
         //Search user
-        Route::get('/search/{search?}', 'UserController@searchUser')->name('search');
+        Route::get('search', 'UserController@searchUser')->name('search');
     });
 
     //Steads admin routes
+
+    Route::resource('steads', 'SteadController')->except('show');
     Route::group(['prefix' => 'steads', 'as' => 'steads.'], function(){
-        Route::get('/', 'SteadController@index')->name('index');
-
-        Route::get('/create', 'SteadController@create')->name('create');
-        Route::post('/store', 'SteadController@store')->name('store');
-
-        Route::get('/edit/{id}', 'SteadController@edit')->name('edit');
-        Route::post('/update/{id}', 'SteadController@update')->name('update');
-
-        Route::get('/delete/{id}', 'SteadController@delete')->name('delete');
 
         //Search stead
-        Route::get('/search/{search?}', 'SteadController@searchStead')->name('search');
+        Route::get('search', 'SteadController@searchStead')->name('search');
 
     });
 
@@ -105,19 +82,17 @@ Route::group(['middleware' => 'can:admin-panel','prefix' => 'admin', 'as' => 'ad
         Route::get('/create', 'ReceiptController@create')->name('create');
         Route::post('/store', 'ReceiptController@store')->name('store');
 
-        Route::get('/multiple-create', 'ReceiptController@multipleCreate')->name('multiple_create');
-        Route::post('/multiple-store', 'ReceiptController@multipleStore')->name('multiple_store');
-
         Route::get('/edit/{id}', 'ReceiptController@edit')->name('edit');
         Route::post('/update/{id}', 'ReceiptController@update')->name('update');
 
         Route::get('/delete/{id}', 'ReceiptController@delete')->name('delete');
 
-        //Search Receipt
-        //Route::get('/search/{search}', 'ReceiptController@searchStead')->name('search');
+        Route::get('/multiple-create', 'ReceiptController@multipleCreate')->name('multiple_create');
+        Route::post('/multiple-store', 'ReceiptController@multipleStore')->name('multiple_store');
+
 
     });
-    Route::post('upload-image', 'AdminController@uploadImage');
+    Route::post('upload-image', 'AdminController@uploadImage')->name('upload_image');
 });
 
 

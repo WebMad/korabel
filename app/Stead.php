@@ -11,7 +11,13 @@ class Stead extends Model
         'user_id',
     ];
 
-    public function receipts(){
+    public function user()
+    {
+        return $this->hasOne('App\User', 'id', 'user_id');
+    }
+
+    public function receipts()
+    {
         return $this->hasMany('App\Receipt', 'stead_id', 'id');
     }
 }
