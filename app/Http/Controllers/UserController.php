@@ -59,42 +59,13 @@ class UserController extends Controller
         return view('admin.users.edit', ['user' => $user]);
     }
 
-    public function update(UpdateRequest $request, $id, User $user)
+    public function update(UpdateRequest $request, $id)
     {
-        /** @var User $user */
-        $user = $this->userService->find($id);
-
-        if ($request->get('is_admin')) {
-            $user->roles()->attach(Role::ADMIN);
-        } else {
-            $user->roles()->detach(Role::ADMIN);
+        $params = $request->all();
+        if (empty($params['password'])) {
+            unset($params['password']);
         }
-
-        $fields = $request->except('is_admin');
-
-        if (!empty($request->input('password'))) {
-            $fields['password'] = $request->input('password');
-            $fields['password_confirmation'] = $request->input('password_confirmation');
-            Validator::make($fields, [
-                'password' => 'max:255|confirmed',
-            ])->validate();
-            $fields['password'] = Hash::make($fields['password']);
-            unset($fields['password_confirmation']);
-        }
-        if ($request->input('email') != User::find($id)->email) {
-            $fields['email'] = $request->input('email');
-            Validator::make($fields, [
-                'email' => 'required|unique:users|max:255',
-            ])->validate();
-        }
-        Validator::make($fields, [
-            'phone' => 'max:255',
-            'name' => 'required|max:255',
-            'surname' => 'max:255',
-            'patronymic' => 'max:255',
-        ])->validate();
-
-        $user->fill($fields)->save();
+        $this->userService->update($id, $params);
 
         Session::flash('msg.status', 'success');
         Session::flash('msg.text', 'Данные успешно сохранены!');
@@ -104,7 +75,7 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        User::destroy($id);
+        $this->userService->delete($id);
 
         Session::flash('msg.status', 'success');
         Session::flash('msg.text', 'Пользователь удален!');
@@ -115,7 +86,7 @@ class UserController extends Controller
     public function searchUser(Request $request)
     {
         $search = $request->get('search');
-        $users = User::search($search)->limit(30)->get();
+        $users = $this->userService->search($search)->limit(30)->get();
 
         return UserResource::collection($users);
     }

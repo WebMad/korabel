@@ -27,9 +27,9 @@ class UpdateRequest extends FormRequest
             'surname' => 'string|max:255',
             'name' => 'required|string|max:255',
             'patronymic' => 'string|max:255',
-            'email' => 'required|unique:users,email',
-            'phone' => 'required|string|max:255',
-            'password' => 'string|max:255',
+            'email' => 'required|unique:users,email,' . $this->route('user'),
+            'phone' => 'max:255',
+            'password' => 'max:255',
             'active' => 'boolean',
             'is_admin' => 'boolean',
         ];

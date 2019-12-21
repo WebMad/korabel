@@ -60,6 +60,7 @@ Route::group(['middleware' => ['auth', 'admin'],'prefix' => 'admin', 'as' => 'ad
 
     //Users admin routes
     Route::resource('users', 'UserController')->except('show');
+
     Route::group(['prefix' => 'users', 'as' => 'users.'], function(){
         //Search user
         Route::get('search', 'UserController@searchUser')->name('search');

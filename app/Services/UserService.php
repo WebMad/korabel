@@ -44,6 +44,25 @@ class UserService extends BaseService
         return $user;
     }
 
+    public function update($id, $params)
+    {
+        /** @var User $user */
+        $user = $this->find($id);
+
+        if (isset($params['is_admin'])) {
+            $user->roles()->attach(Role::ADMIN);
+        } else {
+            $user->roles()->detach(Role::ADMIN);
+        }
+
+        if (!empty($params['password'])) {
+            $params['password'] = Hash::make($params['password']);
+        }
+
+        $user->fill($params)->save();
+        return $user;
+    }
+
     public function search($string, $relations = [])
     {
         $string = explode(' ', $string);
