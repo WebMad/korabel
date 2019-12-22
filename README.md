@@ -36,6 +36,12 @@ MAIL_ENCRYPTION=
 MAIL_FROM_ADDRESS="<АДРЕС С КОТОРОГО ПРОИЗВОДИТСЯ РАССЫЛКА>"
 MAIL_FROM_NAME="<ОТ КОГО СООБЩЕНИЕ>"
 
+SU_NAME=<Имя администратора>
+SU_SURNAME=<Фамилия администратора>
+SU_PATRONYMIC=<Отчество администратора>
+SU_EMAIL=<E-mail администратора>
+SU_PASSWORD=<Пароль администратора>
+
 CAPTCHA_SECRET=<СЕКРЕТНЫЙ КЛЮЧ RECAPTCHA>
 CAPTCHA_SITEKEY=<КЛЮЧ RECAPTCHA>
 ```
@@ -50,6 +56,12 @@ $ php artisan key:generate
 
 ```
 $ php artisan migrate --seed
+```
+
+Создайте ссылку на storage:
+
+```
+$ php artisan storage:link
 ```
 
 Поздравляю! Теперь тебе просто необходимо открыть проект в браузере
