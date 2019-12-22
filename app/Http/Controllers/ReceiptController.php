@@ -38,7 +38,7 @@ class ReceiptController extends Controller
     {
 
         if (!empty($request->get('search'))) {
-            $receipts = $this->receiptService->search($request->get('search'), 'steads.id', ['stead']);
+            $receipts = $this->receiptService->search($request->get('search'), 'steads.number', ['stead']);
         } else {
             $receipts = $this->receiptService->all(['stead', 'stead.user']);
         }
