@@ -11,4 +11,9 @@ class Receipt extends Model
         'file',
         'date_receipt',
     ];
+
+    public function stead()
+    {
+        return $this->hasOne('App\Stead', 'id', 'stead_id');
+    }
 }

@@ -76,23 +76,14 @@ Route::group(['middleware' => ['auth', 'admin'],'prefix' => 'admin', 'as' => 'ad
 
     });
 
+
     //Receipts admin routes
+    Route::resource('receipts', 'ReceiptController')->except('show');
     Route::group(['prefix' => 'receipts', 'as' => 'receipts.'], function(){
-        Route::get('/', 'ReceiptController@index')->name('index');
-
-        Route::get('/create', 'ReceiptController@create')->name('create');
-        Route::post('/store', 'ReceiptController@store')->name('store');
-
-        Route::get('/edit/{id}', 'ReceiptController@edit')->name('edit');
-        Route::post('/update/{id}', 'ReceiptController@update')->name('update');
-
-        Route::get('/delete/{id}', 'ReceiptController@delete')->name('delete');
-
         Route::get('/multiple-create', 'ReceiptController@multipleCreate')->name('multiple_create');
         Route::post('/multiple-store', 'ReceiptController@multipleStore')->name('multiple_store');
-
-
     });
+    
     Route::post('upload-image', 'AdminController@uploadImage')->name('upload_image');
 });
 

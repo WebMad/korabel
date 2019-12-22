@@ -25,7 +25,8 @@ function searchStead() {
         }
         data.forEach(function (value) {
             div = document.createElement('option');
-            div.innerHTML = value.number + ' - ' + value.user.surname + ' ' + value.user.name + ' ' + value.user.patronymic;
+            fio = (value.user) ? value.user.surname + ' ' + value.user.name + ' ' + value.user.patronymic : 'Нет владельца';
+            div.innerHTML = value.number + ' - ' + fio;
             div.setAttribute('value', value.id);
             document.getElementById('steads').appendChild(div);
         });

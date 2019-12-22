@@ -14,8 +14,8 @@
 
         <div class="form-group">
             <span>Файл:</span>
-            <input type="file" accept="application/pdf" name="receipts">
-            @if ($errors->has('receipts'))
+            <input type="file" accept="application/pdf" name="receipt_file">
+            @if ($errors->has('receipt_file'))
                 <span class="error_message">Выберите файл</span>
             @endif
         </div>

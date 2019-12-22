@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Stead\StoreRequest;
+use App\Http\Requests\Stead\UpdateRequest;
 use App\Services\SteadService;
 use App\Services\UserService;
-use App\Stead;
-use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class SteadController extends Controller
@@ -19,6 +18,7 @@ class SteadController extends Controller
     /**
      * SteadController constructor.
      * @param SteadService $steadService
+     * @param UserService $userService
      */
     public function __construct(SteadService $steadService, UserService $userService)
     {
@@ -34,10 +34,10 @@ class SteadController extends Controller
     public function index(Request $request)
     {
 
-        $steads = $this->steadService->all(['user']);
-
-        if ($request->input('search')) {
-            $steads->where('steads.number', 'LIKE', '%' . $request->input('search') . '%');
+        if (!empty($request->input('search'))) {
+            $steads = $this->steadService->search($request->input('search'), ['user']);
+        } else {
+            $steads = $this->steadService->all(['user']);
         }
 
         return view('admin.steads.view', [
@@ -60,13 +60,9 @@ class SteadController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $request->validate([
-            'number' => 'required',
-            'user_id' => '',
-        ]);
-        Stead::create($request->all());
+        $this->steadService->create($request->all());
 
         Session::flash('msg.status', 'success');
         Session::flash('msg.text', 'Участок добавлен!');
@@ -91,20 +87,14 @@ class SteadController extends Controller
 
     /**
      * Update stead
-     * @param Request $request
+     * @param UpdateRequest $request
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
-        $stead = $this->steadService->find($id);
 
-        $request->validate([
-            'number' => 'required',
-            'user_id' => '',
-        ]);
-
-        $stead->fill($request->all())->save();
+        $this->steadService->update($id, $request->all());
 
         Session::flash('msg.status', 'success');
         Session::flash('msg.text', 'Участок изменен!');
@@ -116,10 +106,11 @@ class SteadController extends Controller
      * Delete stead
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
-    public function delete($id)
+    public function destroy($id)
     {
-        Stead::destroy($id);
+        $this->steadService->delete($id);
 
         Session::flash('msg.status', 'success');
         Session::flash('msg.text', 'Участок удален!');

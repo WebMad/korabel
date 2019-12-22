@@ -18,4 +18,8 @@ class SteadService extends BaseService
         parent::__construct($stead);
     }
 
+    public function search($search, $relations = []) {
+        return $this->all($relations)->where('steads.number', 'LIKE', "%$search%");
+    }
+
 }
