@@ -83,7 +83,7 @@ Route::group(['middleware' => ['auth', 'admin'],'prefix' => 'admin', 'as' => 'ad
         Route::get('/multiple-create', 'ReceiptController@multipleCreate')->name('multiple_create');
         Route::post('/multiple-store', 'ReceiptController@multipleStore')->name('multiple_store');
     });
-    
+
     Route::post('upload-image', 'AdminController@uploadImage')->name('upload_image');
 });
 
