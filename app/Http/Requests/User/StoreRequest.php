@@ -31,7 +31,7 @@ class StoreRequest extends FormRequest
             'patronymic' => 'max:255',
             'phone' => 'max:255',
             'active' => 'boolean',
-            'is_admin' => 'boolean',
+            'is_admin' => '',
         ];
     }
 }

@@ -31,7 +31,7 @@ class UpdateRequest extends FormRequest
             'phone' => 'max:255',
             'password' => 'max:255',
             'active' => 'boolean',
-            'is_admin' => 'boolean',
+            'is_admin' => '',
         ];
     }
 }

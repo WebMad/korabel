@@ -81,7 +81,7 @@
         </div>
 
         <div class="form-group">
-            <span>Админ <input type="checkbox" name="is_admin" {{ $user['is_admin'] ? 'checked' : '' }}></span>
+            <span>Админ <input type="checkbox" name="is_admin" {{ $user->isAdmin() ? 'checked' : '' }}></span>
             @if ($errors->has('is_admin'))
                 <span class="error_message">{{ $errors->first('is_admin') }}</span>
             @endif
