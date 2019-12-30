@@ -12,4 +12,9 @@ class News extends Model
         'content',
     ];
 
+
+    public function imagesNew()
+    {
+        return $this->hasMany('App\ImagesNew', 'new_id', 'id');
+    }
 }

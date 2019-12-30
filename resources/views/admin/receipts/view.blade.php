@@ -31,7 +31,7 @@
                 <td>{{ $receipt->stead->number }}
                     - {{ isset($receipt->stead->user) ? $receipt->stead->user->getFio() : 'Нет владельца' }}</td>
                 <td>{{ $months[date('n',strtotime($receipt->date_receipt))-1] . ' ' . date('Y',strtotime($receipt->date_receipt)) }}</td>
-                <td><a href="{{ asset($receipt->file) }}">Скачать</a></td>
+                <td><a href="{{ asset($receipt->file->url) }}">Скачать</a></td>
                 <td>
                     <div class="actions">
                         <a class="action-button" href="{{ route('admin.receipts.edit', ['id'=> $receipt->id]) }}">

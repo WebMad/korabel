@@ -2,34 +2,55 @@
 
 namespace App\Http\Controllers;
 
+use App\FileType;
+use App\Http\Requests\Document\StoreRequest;
+use App\Http\Requests\Document\UpdateRequest;
+use App\Services\DocumentService;
+use App\Services\FileService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
-use App\Documents;
 
 class DocumentsController extends Controller
 {
+    private $documentService;
 
-    public function create(){
-        return view('admin.documents.create');
+    public function __construct(DocumentService $documentService)
+    {
+        $this->documentService = $documentService;
     }
-    public function store(Request $request){
-        $request->validate([
-            'name' => 'required',
-            'file' => 'required',
-        ]);
-        $file = $request->file('file');
 
-        $destinationPath = 'uploads/documents';
-        $fileName = time();
-        $filePath = $destinationPath.'/'.$fileName. '.' .$file->getClientOriginalExtension();
-        $file->move($destinationPath,$filePath);
+    public function index(Request $request)
+    {
+        if ($request->input('search')) {
+            $documents = $this->documentService
+                ->search($request->input('search'), 'name', [
+                    'file', 'file.fileType'
+                ]);
+        } else {
+            $documents = $this->documentService->all(['file', 'file.fileType']);
+        }
+        $documents = $documents->paginate(30);
 
-        Documents::create([
-            'name' => $request->input('name'),
-            'type' => $request->input('type'),
-            'file' => $filePath
+        return view('admin.documents.view', [
+            'documents' => $documents,
         ]);
+    }
+
+    public function create()
+    {
+        return view('admin.documents.create', [
+            'file_types' => FileType::all()->whereIn('id', [
+                FileType::DOCUMENT,
+                FileType::APPLICATION_TEMPLATE,
+                FileType::PROTOCOL_MEETING,
+            ]),
+        ]);
+    }
+
+    public function store(StoreRequest $storeRequest)
+    {
+
+        $this->documentService->create($storeRequest->all());
 
         Session::flash('msg.status', 'success');
         Session::flash('msg.text', 'Документ добавлен!');
@@ -37,37 +58,22 @@ class DocumentsController extends Controller
         return redirect(route('admin.documents.index'));
     }
 
-    public function edit($id){
-        return view('admin.documents.edit', ['document' => Documents::findOrFail($id)]);
-    }
-    public function update(Request $request, $id){
-
-        $fileDB = Documents::findOrFail($id);
-        $request->validate([
-            'name' => 'required',
+    public function edit($id)
+    {
+        return view('admin.documents.edit', [
+            'document' => $this->documentService->find($id, ['file']),
+            'file_types' => FileType::all()->whereIn('id', [
+                FileType::DOCUMENT,
+                FileType::APPLICATION_TEMPLATE,
+                FileType::PROTOCOL_MEETING,
+            ]),
         ]);
+    }
 
-        $data = [
-            'name'=>$request->input('name'),
-            'type'=>$request->input('type')
-        ];
-        if(!empty($request->file('file'))){
+    public function update(UpdateRequest $request, $id)
+    {
 
-            $filePath = app_path($fileDB);;
-            if(File::exists($filePath)) {
-                File::delete($filePath);
-            }
-            $file = $request->file('file');
-
-            $destinationPath = 'uploads/documents';
-            $fileName = time();
-            $filePath = $destinationPath.'/'.$fileName. '.' .$file->getClientOriginalExtension();
-            $file->move($destinationPath,$filePath);
-
-            $data['file'] = $filePath;
-        }
-
-        $fileDB->fill($data)->save();
+        $this->documentService->update($id, $request->all());
 
         Session::flash('msg.status', 'success');
         Session::flash('msg.text', 'Данные успешно сохранены!');
@@ -75,13 +81,9 @@ class DocumentsController extends Controller
         return redirect(route('admin.documents.index'));
     }
 
-    public function delete($id){
-        $fileDB = Documents::findOrFail($id);
-        $filePath = public_path($fileDB['file']);
-        if(File::exists($filePath)) {
-            File::delete($filePath);
-        }
-        $fileDB->destroy($id);
+    public function destroy($id)
+    {
+        $this->documentService->delete($id);
 
         Session::flash('msg.status', 'success');
         Session::flash('msg.text', 'Документ удален!');

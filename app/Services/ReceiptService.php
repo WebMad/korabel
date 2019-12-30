@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\FileType;
 use App\Receipt;
 use App\Stead;
 use App\User;
@@ -31,15 +32,24 @@ class ReceiptService extends BaseService
         'декабрь'
     ];
 
-    public function __construct(Receipt $receipt)
+    private $fileService;
+
+    public function __construct(Receipt $receipt, FileService $fileService)
     {
+        $this->fileService = $fileService;
         parent::__construct($receipt);
     }
 
     public function create($params)
     {
         $file = $params['receipt_file'];
-        $params['file'] = $this->uploadReceipt($file);;
+        $file_url = $this->fileService->upload($file, 'receipts');
+        $file_db = $this->fileService->create([
+            'name' => 'квитанция',
+            'url' => $file_url,
+            'file_type_id' => FileType::RECEIPT
+        ]);
+        $params['file_id'] = $file_db->id;
 
         return $this->model::create($params);
     }
@@ -47,12 +57,10 @@ class ReceiptService extends BaseService
     public function delete($id)
     {
         $receipt = $this->find($id);
-
-        $filePath = public_path($receipt->file);
-        if (File::exists($filePath)) {
-            File::delete($filePath);
+        if ($receipt->file_id) {
+            $this->fileService->delete($receipt->file_id);
         }
-        $receipt->delete();
+        parent::delete($id);
     }
 
     public function update($id, $params)
@@ -60,21 +68,16 @@ class ReceiptService extends BaseService
         $receipt = $this->find($id);
 
         if (!empty($params['receipt_file'])) {
-            $filePath = public_path($receipt->file);
-            if (File::exists($filePath)) {
-                File::delete($filePath);
-            }
-            $params['file'] = $this->uploadReceipt($params['receipt_file']);
+            $this->fileService->delete($receipt->file->id);
+            $file_url = $this->fileService->upload($params['receipt_file'], 'receipts');
+            $file = $this->fileService->create([
+                'name' => 'квитанция',
+                'url' => $file_url,
+                'file_type_id' => FileType::RECEIPT,
+            ]);
+            $params['file_id'] = $file->id;
         }
         $receipt->update($params);
-    }
-
-    public function uploadReceipt($file)
-    {
-        $destination_path = 'storage/uploads/receipts';
-        $file_name = time() . '.' . $file->getClientOriginalExtension();
-        $file->move(public_path($destination_path), $file_name);
-        return $destination_path . '/' . $file_name;
     }
 
     public function search($search, $column, $relations = [])

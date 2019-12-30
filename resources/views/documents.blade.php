@@ -36,13 +36,13 @@
                 @endif
             </div>
 
-            @if(isset(Auth::user()->active) and Auth::user()->active == 1)
+            @if(isset(Auth::user()->active) and Auth::user()->isAdmin())
                 <h3>Протоколы собраний</h3>
                 <div class="row-file">
                     @foreach($protocols as $protocol)
-                        <a href="{{ $protocol['file'] }}" class="file">
-                            <div class="img"><img src="{{ asset($protocol['img']) }}" alt=""></div>
-                            <div class="name">{{ $protocol['name'] }}</div>
+                        <a href="{{ $protocol->file->url }}" class="file">
+                            <div class="img"><img src="{{ asset($protocol->file->img) }}" alt=""></div>
+                            <div class="name">{{ $protocol->file->name }}</div>
                         </a>
                     @endforeach
                     @if(count($protocols) == 0)

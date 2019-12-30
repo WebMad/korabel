@@ -59,9 +59,9 @@ class UserController extends Controller
         return view('admin.users.edit', ['user' => $user]);
     }
 
-    public function update(UpdateRequest $request, $id)
+    public function update(UpdateRequest $updateRequest, $id)
     {
-        $params = $request->all();
+        $params = $updateRequest->all();
         if (empty($params['password'])) {
             unset($params['password']);
         }

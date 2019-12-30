@@ -25,20 +25,21 @@
         <tbody>
         @foreach($documents as $document)
             <tr>
-                <td>{{ $document['id'] }}</td>
-                <td>{{ $document['name'] }}</td>
-                <td><a href="{{ url($document['file']) }}">Скачать</a></td>
+                <td>{{ $document->id }}</td>
+                <td>{{ $document->file->name }}</td>
+                <td><a href="{{ url($document->file->url) }}">Скачать</a></td>
+                <td>{{ $document->file->fileType->name }}</td>
                 <td>
-                    @switch($document['type'])
-                        @case('default') Публичный @break
-                        @case('protocol') Протокол собрания @break
-                        @case('pattern') Образец заявления @break
-                    @endswitch
-                </td>
-                <td>
-                    <a href="{{ route('admin.documents.edit',['id'=>$document['id']]) }}">Редактировать</a>
-                    |
-                    <a href="{{ route('admin.documents.delete', ['id' => $document['id']]) }}">Удалить</a>
+                    <div class="actions">
+                        <a class="action-button" href="{{ route('admin.documents.edit', ['id'=> $document->id]) }}">
+                            <button>Редактировать</button>
+                        </a>
+                        <form class="action-button" action="{{ route('admin.documents.destroy', ['id'=> $document->id]) }}" method="post">
+                            @csrf
+                            @method('delete')
+                            <button>Удалить</button>
+                        </form>
+                    </div>
                 </td>
             </tr>
         @endforeach
