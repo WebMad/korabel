@@ -15,11 +15,14 @@ class CreateDocumentsTable extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('file');
-            $table->string('img')->default('images/landing/pdf.jpg');
-            $table->string('type')->default('default');
+
+            $table->integer('file_id')->unsigned()->nullable();
             $table->timestamps();
+
+            $table->foreign('file_id')
+                ->references('id')
+                ->on('files')
+                ->onDelete('cascade');
         });
     }
 
