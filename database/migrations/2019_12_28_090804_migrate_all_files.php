@@ -21,7 +21,7 @@ class MigrateAllFiles extends Migration
 
         //images_news
         Schema::table('images_news', function (Blueprint $table) {
-            $table->addColumn('integer', 'img_id')->nullable();
+            $table->addColumn('integer', 'img_id')->unsigned()->nullable();
 
             $table->foreign('img_id')
                 ->references('id')
@@ -47,7 +47,7 @@ class MigrateAllFiles extends Migration
 
         //receipts
         Schema::table('receipts', function (Blueprint $table) {
-            $table->addColumn('integer', 'file_id')->nullable();
+            $table->addColumn('integer', 'file_id')->unsigned()->nullable();
 
             $table->foreign('file_id')
                 ->references('id')
@@ -74,7 +74,7 @@ class MigrateAllFiles extends Migration
 
         //documents
         Schema::table('documents', function (Blueprint $table) {
-            $table->addColumn('integer', 'file_id')->nullable();
+            $table->addColumn('integer', 'file_id')->unsigned()->nullable();
 
             $table->foreign('file_id')
                 ->references('id')
