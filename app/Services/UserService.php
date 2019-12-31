@@ -49,9 +49,10 @@ class UserService extends BaseService
         /** @var User $user */
         $user = $this->find($id);
 
-        if (isset($params['is_admin'])) {
+        if (!empty($params['is_admin']) && !$user->isAdmin()) {
             $user->roles()->attach(Role::ADMIN);
-        } else {
+        }
+        if (empty($params['is_admin']) && $user->isAdmin()) {
             $user->roles()->detach(Role::ADMIN);
         }
 
