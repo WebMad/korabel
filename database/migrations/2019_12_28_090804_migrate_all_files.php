@@ -38,7 +38,7 @@ class MigrateAllFiles extends Migration
                 'file_type_id' => FileType::IMAGE,
             ]);
 
-            \App\ImagesNew::update(['id' => $image->id],['img_id' => $file->id]);
+            \App\ImagesNew::find($image->id)->update(['img_id' => $file->id]);
         }
 
         Schema::table('images_news', function (Blueprint $table) {
@@ -64,7 +64,7 @@ class MigrateAllFiles extends Migration
                 'file_type_id' => FileType::RECEIPT
             ]);
 
-            Receipt::update(['id' => $file->id], ['file_id' => $file->id]);
+            Receipt::find($file->id)->update(['file_id' => $file->id]);
         }
 
         Schema::table('receipts', function (Blueprint $table) {
@@ -99,7 +99,7 @@ class MigrateAllFiles extends Migration
                 'url' => $document->file,
                 'file_type_id' => $type,
             ]);
-            Documents::update(['id' => $document->id], ['file_id' => $file->id]);
+            Documents::find($document->id)->update(['file_id' => $file->id]);
         }
         Schema::table('documents', function (Blueprint $table) {
             $table->removeColumn('file');
