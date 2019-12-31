@@ -64,7 +64,7 @@ class MigrateAllFiles extends Migration
                 'file_type_id' => FileType::RECEIPT
             ]);
 
-            Receipt::find($file->id)->update(['file_id' => $file->id]);
+            Receipt::find($receipt->id)->update(['file_id' => $file->id]);
         }
 
         Schema::table('receipts', function (Blueprint $table) {
