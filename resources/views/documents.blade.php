@@ -13,9 +13,9 @@
 
             <div class="row-file">
                 @foreach($documents as $document)
-                    <a href="{{ $document['file'] }}" class="file">
-                        <div class="img"><img src="{{ asset($document['img']) }}" alt=""></div>
-                        <div class="name">{{ $document['name'] }}</div>
+                    <a href="{{ $document->file->url }}" class="file">
+                        <div class="img"><img src="{{ asset($document->file->img) }}" alt=""></div>
+                        <div class="name">{{ $document->file->name }}</div>
                     </a>
                 @endforeach
                 @if(count($documents) == 0)
@@ -26,9 +26,9 @@
             <h3>Образцы заявлений</h3>
             <div class="row-file">
                 @foreach($patterns as $pattern)
-                    <a href="{{ $pattern['file'] }}" class="file">
-                        <div class="img"><img src="{{ asset($pattern['img']) }}" alt=""></div>
-                        <div class="name">{{ $pattern['name'] }}</div>
+                    <a href="{{ $pattern->file->url }}" class="file">
+                        <div class="img"><img src="{{ asset($pattern->file->img) }}" alt=""></div>
+                        <div class="name">{{ $pattern->file->name }}</div>
                     </a>
                 @endforeach
                 @if(count($patterns) == 0)

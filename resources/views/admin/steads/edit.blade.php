@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-    @if(isset($user))
+    @if(isset($stead->user))
         <script>
             count_delete = 2;
         </script>
@@ -35,6 +35,9 @@
             <input type="text" placeholder="Поиск пользователей" id="search_user" name="Поиск пользователя">
             <select id="users" name="user_id" size="5">
                 <option class="user" value="" {{ (!isset($stead->user)) ? 'selected' : '' }}>Нет владельца</option>
+                @if(isset($stead->user))
+                    <option value="{{ $stead->user->id }}" selected>{{ $stead->user->surname . ' ' . $stead->user->name . ' ' . $stead->user->patronymic }}</option>
+                @endif
             </select>
             @if ($errors->has('user_id'))
                 <span class="error_message">{{ $errors->first('user_id') }}</span>
