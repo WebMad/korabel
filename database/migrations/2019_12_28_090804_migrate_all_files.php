@@ -34,7 +34,7 @@ class MigrateAllFiles extends Migration
         foreach ($images as $image) {
             $file = Files::create([
                 'name' => 'картинка',
-                'url' => $image->url,
+                'url' => $image->img_url,
                 'file_type_id' => FileType::IMAGE,
             ]);
             $image->img_id = $file->id;
