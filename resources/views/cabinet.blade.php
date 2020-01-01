@@ -79,6 +79,7 @@
                                 <div class="msg-wrong-input">{{ $errors->first('password_confirmation') }}</div>
                             @endif
                         </div>
+                        <input type="hidden" name="is_cabinet" value="1">
 
                         <input type="submit">
                     </form>

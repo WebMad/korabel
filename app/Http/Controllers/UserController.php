@@ -8,11 +8,7 @@ use App\Http\Resources\UserResource;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use App\User;
-use App\UsersRole;
-use App\Role;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
@@ -65,6 +61,11 @@ class UserController extends Controller
         if (empty($params['password'])) {
             unset($params['password']);
         }
+
+        if (isset($params['is_cabinet'])) {
+            $params['is_admin'] = Auth::user()->isAdmin() ? 'checked' : '';
+        }
+
         $this->userService->update($id, $params);
 
         Session::flash('msg.status', 'success');
