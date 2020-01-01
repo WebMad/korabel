@@ -3,9 +3,10 @@
 use App\SiteInfo;
 use Illuminate\Database\Seeder;
 
-class SiteInfosTableSeeder extends Seeder
+class   SiteInfosTableSeeder extends Seeder
 {
     private $data;
+    private $fields;
 
     public function __construct()
     {
@@ -19,6 +20,16 @@ class SiteInfosTableSeeder extends Seeder
             ['name' => 'latitude', 'content' => '55.75222'],
             ['name' => 'longitude', 'content' => '37.61556'],
         ];
+        $this->fields = [
+            ['name' => 'site_name'],
+            ['name' => 'site_subname'],
+            ['name' => 'contact_phone'],
+            ['name' => 'contact_email'],
+            ['name' => 'contact_address'],
+            ['name' => 'legal_address'],
+            ['name' => 'latitude'],
+            ['name' => 'longitude'],
+        ];
     }
 
 
@@ -29,9 +40,8 @@ class SiteInfosTableSeeder extends Seeder
      */
     public function run()
     {
-        foreach ($this->data as $site_info) {
-            SiteInfo::updateOrCreate($site_info);
+        foreach ($this->data as $key => $site_info) {
+            SiteInfo::updateOrCreate($this->fields[$key], $site_info);
         }
-
     }
 }
