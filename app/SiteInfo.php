@@ -10,6 +10,7 @@ class SiteInfo extends Model
         'site_name',
         'site_subname',
         'contact_phone',
+        'contact_email',
         'contact_address',
         'legal_address',
         'latitude',
