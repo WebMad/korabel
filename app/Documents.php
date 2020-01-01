@@ -6,13 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Documents extends Model
 {
-    protected $fillable = [
-        'name',
-        'file',
-        'file_id',
-        'img',
-        'type',
-    ];
+    protected $fillable = ['file_id'];
 
     public function file()
     {

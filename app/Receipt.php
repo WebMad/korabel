@@ -8,7 +8,6 @@ class Receipt extends Model
 {
     protected $fillable = [
         'stead_id',
-        'file',
         'file_id',
         'date_receipt',
     ];
