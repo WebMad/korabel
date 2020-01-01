@@ -32,9 +32,16 @@
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->active == 1 ? 'Активный' : 'Неактивный' }}</td>
                     <td>
-                        <a href="{{ route('admin.users.edit',['id'=>$user->id]) }}">Редактировать</a>
-                        |
-                        <a href="{{ route('admin.users.delete', ['id' => $user->id]) }}">Удалить</a>
+                        <div class="actions">
+                            <a class="action-button" href="{{ route('admin.users.edit', ['id'=> $user['id']]) }}">
+                                <button>Редактировать</button>
+                            </a>
+                            <form class="action-button" action="{{ route('admin.users.destroy', ['id'=> $user['id']]) }}" method="post">
+                                @csrf
+                                @method('delete')
+                                <button>Удалить</button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
             @endforeach

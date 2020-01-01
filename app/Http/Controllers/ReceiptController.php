@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Receipt\StoreRequest;
+use App\Http\Requests\Receipt\UpdateRequest;
 use App\Receipt;
+use App\Services\ReceiptService;
+use App\Services\SteadService;
 use App\Stead;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -11,65 +15,58 @@ use Illuminate\Support\Facades\File;
 
 class ReceiptController extends Controller
 {
-    public $months = [
-        'январь',
-        'февраль',
-        'март',
-        'апрель',
-        'май',
-        'июнь',
-        'июль',
-        'август',
-        'сентябрь',
-        'октябрь',
-        'ноябрь',
-        'декабрь'
-    ];
 
-    public function index(Request $request){
-        $receipts = DB::table('receipts')
-            ->select('receipts.*', 'steads.number')
-            ->leftJoin('steads', 'steads.id', '=', 'receipts.stead_id')
-            ->orderBy('receipts.id');
+    private $receiptService;
+    private $steadService;
 
-        if($request->get('search')){
-            $receipts->where('steads.number', 'LIKE', '%'.$request->get('search').'%');
+    /**
+     * ReceiptController constructor.
+     * @param ReceiptService $receiptService
+     * @param SteadService $steadService
+     */
+    public function __construct(ReceiptService $receiptService, SteadService $steadService)
+    {
+        $this->receiptService = $receiptService;
+        $this->steadService = $steadService;
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index(Request $request)
+    {
+
+        if (!empty($request->get('search'))) {
+            $receipts = $this->receiptService->search($request->get('search'), 'steads.number', ['stead']);
+        } else {
+            $receipts = $this->receiptService->all(['stead', 'stead.user']);
         }
+        $receipts->orderBy('receipts.id', 'desc');
 
         return view('admin.receipts.view', [
             'receipts' => $receipts->paginate(30),
-            'months' => $this->months,
+            'months' => ReceiptService::$months,
         ]);
     }
 
-    public function create(){
-        return view('admin.receipts.create', [
-            'steads' => DB::table('steads')
-                ->select('steads.id', 'steads.number', 'users.surname', 'users.name', 'users.patronymic')
-                ->join('users', 'users.id', '=', 'steads.user_id')
-                ->get()
-        ]);
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create()
+    {
+        return view('admin.receipts.create');
     }
-    public function store(Request $request){
-        $request->validate([
-            'date_receipt' => 'required',
-            'stead_id' => 'required',
-            'receipts' => 'required',
-        ]);
 
-        $file = $request->file('receipts');
+    /**
+     * @param StoreRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(StoreRequest $request)
+    {
+        $data = $request->only('date_receipt', 'stead_id', 'receipt_file');
 
-        $destination_path = 'uploads/receipts';
-        $file_name = time();
-        $file_path = $destination_path . '/' . $file_name . '.' . $file->getClientOriginalExtension();
-
-        $file->move($destination_path, $file_path);
-
-        $data = $request->only('date_receipt', 'stead_id');
-
-        $data['file'] = $file_path;
-
-        Receipt::create($data);
+        $this->receiptService->create($data);
 
         Session::flash('msg.status', 'success');
         Session::flash('msg.text', 'Квитанция успешно дабвлена!');
@@ -77,101 +74,76 @@ class ReceiptController extends Controller
         return back();
     }
 
-    public function multipleCreate(Request $request){
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function multipleCreate(Request $request)
+    {
         return view('admin.receipts.multiple_create');
     }
-    public function multipleStore(Request $request){
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function multipleStore(Request $request)
+    {
         $files = $request->file('receipts');
 
-        $request->validate([
-            'date_receipt' => 'required',
-            'receipts' => 'required',
-        ]);
-
-        $file_name = time();
         $steads_list = [];
 
-        $receipts = [];
-
-        foreach($files as $file){
+        foreach ($files as $file) {
             $stead = Stead::where('number', mb_substr($file->getClientOriginalName(), 0, -4))->get()->first();
-            if($stead) {
+            if ($stead) {
 
-                $destination_path = 'uploads/receipts';
-                $file_name++;
-                $file_path = $destination_path . '/' . $file_name . '.' . $file->getClientOriginalExtension();
-
-                $file->move($destination_path, $file_path);
-
-                $receipts[] = [
+                $this->receiptService->create([
                     'stead_id' => $stead->id,
                     'date_receipt' => $request->input('date_receipt'),
-                    'file' => $file_path,
-                ];
-            }
-            else{
+                    'receipt_file' => $file
+                ]);
+
+            } else {
                 Session::flash('msg.status', 'danger');
                 Session::flash('msg.text', 'Не найдены следующие участки: ');
                 $steads_list[] = mb_substr($file->getClientOriginalName(), 0, -4);
             }
         }
 
-
-        Receipt::insert($receipts);
-
-        if(isset($steads_list) and count($steads_list)>0) {
+        if (isset($steads_list) and count($steads_list) > 0) {
             Session::flash('msg.steads', $steads_list);
-        }
-        else{
+        } else {
             Session::flash('msg.status', 'success');
             Session::flash('msg.text', 'Квитанции успешно дабвлены!');
-
         }
 
         return back();
     }
 
-    public function edit($id){
-        $receipt = Receipt::findOrFail($id);
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function edit($id)
+    {
+        $receipt = $this->receiptService->find($id);
         return view('admin.receipts.edit', [
             'receipt' => $receipt,
-            'stead' => Stead::where('steads.id', $receipt->stead_id)
-                ->select('steads.id', 'steads.number', 'users.surname', 'users.name', 'users.patronymic')
-                ->join('users', 'users.id', '=', 'steads.user_id')
-                ->get()->first(),
-            'steads' => DB::table('steads')
-                ->select('steads.id', 'steads.number', 'users.surname', 'users.name', 'users.patronymic')
-                ->join('users', 'users.id', '=', 'steads.user_id')
-                ->get(),
+            'stead' => $this->steadService->find($receipt->stead_id, ['user']),
         ]);
     }
-    public function update(Request $request, $id){
-        $receipt = Receipt::findOrFail($id);
 
-        $request->validate([
-            'date_receipt' => 'required',
-            'stead_id' => 'required',
-        ]);
-        $data = $request->only('date_receipt', 'stead_id');
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(UpdateRequest $request, $id)
+    {
 
-        if($request->file('receipts')) {
+        $data = $request->only('date_receipt', 'stead_id', 'receipt_file');
 
-            $filePath = public_path($receipt['file']);
-            if(File::exists($filePath)) {
-                File::delete($filePath);
-            }
-
-            $file = $request->file('receipts');
-            $destination_path = 'uploads/receipts';
-            $file_name = time();
-            $file_path = $destination_path . '/' . $file_name . '.' . $file->getClientOriginalExtension();
-
-            $file->move($destination_path, $file_path);
-
-            $data['file'] = $file_path;
-        }
-
-        $receipt->fill($data)->save();
+        $this->receiptService->update($id, $data);
 
         Session::flash('msg.status', 'success');
         Session::flash('msg.text', 'Информация успешно изменена!');
@@ -179,13 +151,14 @@ class ReceiptController extends Controller
         return back();
     }
 
-    public function delete($id){
-        $fileDB = Receipt::findOrFail($id);
-        $filePath = public_path($fileDB['file']);
-        if(File::exists($filePath)) {
-            File::delete($filePath);
-        }
-        $fileDB->destroy($id);
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function destroy($id)
+    {
+        $this->receiptService->delete($id);
 
         Session::flash('msg.status', 'success');
         Session::flash('msg.text', 'Квитанция удалена!');

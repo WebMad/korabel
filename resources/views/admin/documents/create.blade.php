@@ -13,7 +13,7 @@
         {{ csrf_field() }}
 
         <div class="form-group">
-            <span>Название сайта:</span>
+            <span>Название файла:</span>
             <input type="text" placeholder="Название файла" name="name">
             @if ($errors->has('name'))
                 <span class="error_message">{{ $errors->first('name') }}</span>
@@ -31,9 +31,9 @@
         <div class="form-group">
             <span>Тип файла:</span>
             <select name="type">
-                <option value="default" selected>Публичный</option>
-                <option value="protocol">Протокол собрания</option>
-                <option value="pattern">Образец заявления</option>
+                @foreach($file_types as $file_type)
+                    <option value="{{ $file_type->id }}">{{ $file_type->name }}</option>
+                @endforeach
             </select>
             @if ($errors->has('type'))
                 <span class="error_message">{{ $errors->first('type') }}</span>

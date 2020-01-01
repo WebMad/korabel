@@ -2,41 +2,50 @@
 
 namespace App\Http\Controllers;
 
+use App\FileType;
+use App\Http\Requests\File\StoreImageRequest;
+use App\Http\Requests\News\StoreRequest;
+use App\Http\Requests\News\UpdateRequest;
+use App\ImagesNew;
+use App\Services\FileService;
+use App\Services\NewsService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\News;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 
 class NewsController extends Controller
 {
-    public function index($id = null){
-        if(isset($id)){
-            $new = News::find($id);
-            if(isset($new['id'])) {
-                return view('news.more', ['new' => $new]);
-            }
-            return redirect(route('news'));
-        }
-        $news = News::orderBy('id', 'desc')->paginate(5);
-        return view('news.view', ['news' => $news]);
+
+    /**
+     * @var NewsService
+     */
+    private $newsService;
+
+    public function __construct(NewsService $newsService)
+    {
+        $this->newsService = $newsService;
     }
 
-    public function create(){
+    public function index(Request $request)
+    {
+
+        if ($request->input('search')) {
+            $news = $this->newsService->search($request->input('search'))->paginate(30);
+        } else {
+            $news = $this->newsService->all()->paginate(30);
+        }
+
+        return view('admin.news.view', ['news' => $news]);
+    }
+
+    public function create()
+    {
         return view('admin.news.create');
     }
-    public function store(Request $request){
-        $request->validate([
-            'header' => 'required',
-            'content' => 'required',
-        ]);
-        $news = News::create($request->all());
 
-        $id_new = $news->id;
-
-        $images = $this->getImages($request->input('content'), $id_new);
-
-        DB::table('images_news')->insert($images);
+    public function store(StoreRequest $request)
+    {
+        $this->newsService->create($request->all());
 
         Session::flash('msg.status', 'success');
         Session::flash('msg.text', 'Новость добавлена!');
@@ -44,20 +53,14 @@ class NewsController extends Controller
         return redirect(route('admin.news.index'));
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         return view('admin.news.edit', ['new' => News::findOrFail($id)]);
     }
-    public function update(Request $request, $id){
-        $new = News::findOrFail($id);
-        $request->validate([
-            'header' => 'required',
-            'content' => 'required',
-        ]);
-        $new->fill($request->all())->save();
 
-        DB::table('images_news')->where('new_id', '=', $id)->delete();
-        $images = $this->getImages($request->input('content'), $id);
-        DB::table('images_news')->insert($images);
+    public function update(UpdateRequest $request, $id)
+    {
+        $this->newsService->update($id, $request->all());
 
         Session::flash('msg.status', 'success');
         Session::flash('msg.text', 'Данные сохранены!');
@@ -65,14 +68,10 @@ class NewsController extends Controller
         return redirect(route('admin.news.index'));
     }
 
-    public function delete($id){
+    public function destroy(FileService $fileService, $id)
+    {
 
-        $files = DB::table('images_news')->where('new_id', $id)->get();
-        foreach($files as $file){
-            unlink(public_path($file->img_url));
-        }
-
-        News::destroy($id);
+        $this->newsService->delete($id);
 
         Session::flash('msg.status', 'success');
         Session::flash('msg.text', 'Новость удалена!');
@@ -80,21 +79,39 @@ class NewsController extends Controller
         return redirect(route('admin.news.index'));
     }
 
-    public function getImages($content, $id_new){
-        $dom = new \DOMDocument();
-        $dom->loadHTML($content);
+    /**
+     * Загружает изображения для новостей
+     *
+     * @param StoreImageRequest $storeImageRequest
+     * @param FileService $fileService
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function uploadImage(StoreImageRequest $storeImageRequest, FileService $fileService)
+    {
+        $file = $storeImageRequest->file('upload');
 
-        $images = $dom->getElementsByTagName( "img" );
+        $file_url = $fileService->upload($file, 'news');
 
-        $images_send = [];
+        $file_db = $fileService->create([
+            'url' => $file_url,
+            'file_type_id' => FileType::IMAGE,
+            'name' => 'картинка'
+        ]);
 
-        foreach($images as $image){
-            $images_send[] = [
-                'img_url' => $image->getAttribute('src'),
-                'new_id' => $id_new,
-            ];
-        }
-        return $images_send;
+        $pos = strrpos($file_url, '/'); //номер последнего символа "/" в строке
+        $file_name = substr($file_url, $pos + 1); //название сохраненного файла
+
+        $data = [
+            'uploaded' => 1,
+            'fileName' => $file_name,
+            'url' => '/' . $file_url,
+        ];
+
+        ImagesNew::create([
+            'img_id' => $file_db->id,
+        ]);
+
+        return response()->json($data);
     }
 
 }

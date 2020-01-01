@@ -3,21 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Info;
+use App\SiteInfo;
 
-class InfoController extends Controller
+class SiteInfoController extends Controller
 {
-    public $information_types = [
-        'site_name',
-        'site_subname',
-        'contact_phone',
-        'contact_email',
-        'contact_address',
-        'legal_address',
-        'contact_email',
-        'latitude',
-        'longitude',
-    ];
+
 
     public function index(){
         return view('admin.index', ['info' => self::getInfo()]);
@@ -25,8 +15,8 @@ class InfoController extends Controller
 
     public function update(Request $request){
 
-        foreach ($this->information_types as $type){
-            Info::updateOrCreate(['name' => $type], [
+        foreach (SiteInfo::$information_types as $type){
+            SiteInfo::updateOrCreate(['name' => $type], [
                 'name' => $type,
                 'content' => $request->input($type),
             ]);
@@ -38,7 +28,7 @@ class InfoController extends Controller
     static public function getInfo(){
 
         $information = [];
-        foreach(Info::get() as $info){
+        foreach(SiteInfo::all() as $info){
             $information[$info['name']] = $info['content'];
         }
         return $information;

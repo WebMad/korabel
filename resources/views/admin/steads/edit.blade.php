@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-    @if(isset($user))
+    @if(isset($stead->user))
         <script>
             count_delete = 2;
         </script>
@@ -19,7 +19,8 @@
     <a href="{{ route('admin.steads.index') }}">Назад</a>
     <h2>Редактирование участка</h2>
     <form action="{{ route('admin.steads.update', ['id' => $stead->id]) }}" method="post">
-        {{ csrf_field() }}
+        @csrf
+        @method('put')
 
         <div class="form-group">
             <span>Номер участка:</span>
@@ -33,18 +34,10 @@
             <span>Владелец:</span>
             <input type="text" placeholder="Поиск пользователей" id="search_user" name="Поиск пользователя">
             <select id="users" name="user_id" size="5">
-                <option class="user" value="" {{ (!isset($user)) ? 'selected' : '' }}>Нет владельца</option>
-                @if(isset($user))
-                    <option class="user" {{ (isset($user)) ? 'selected' : '' }} value="{{ $user->user_id }}">{{ $user->surname }} {{ $user->name }} {{ $user->patronymic }}</option>
+                <option class="user" value="" {{ (!isset($stead->user)) ? 'selected' : '' }}>Нет владельца</option>
+                @if(isset($stead->user))
+                    <option value="{{ $stead->user->id }}" selected>{{ $stead->user->surname . ' ' . $stead->user->name . ' ' . $stead->user->patronymic }}</option>
                 @endif
-
-                @foreach($users as $user)
-                    <option class="user" value="{{ $user->id }}">
-                        {{ $user->surname }}
-                        {{ $user->name }}
-                        {{ $user->patronymic }}
-                    </option>
-                @endforeach
             </select>
             @if ($errors->has('user_id'))
                 <span class="error_message">{{ $errors->first('user_id') }}</span>

@@ -1,34 +1,40 @@
-*{
-    padding:0;
-    margin:0;
+* {
+    padding: 0;
+    margin: 0;
     font-family: Montserrat, sans-serif;
 }
-a{
+
+a {
     text-decoration: none;
-    color:#969696;
+    color: #969696;
 }
-body{
-    margin:0;
+
+body {
+    margin: 0;
 }
-#container{
+
+#container {
     display: flex;
 }
-.logo{
+
+.logo {
     background: url('../images/admin/logo.png');
     width: 175px;
     height: 120px;
     background-size: cover;
     align-self: center;
 }
-.left_menu{
+
+.left_menu {
     flex-basis: 15%;
     box-shadow: #d4d4d4 5px 0px 10px;
     display: flex;
     flex-direction: column;
-    height:100vh;
+    height: 100vh;
     /*align-items: center;*/
 }
-.content{
+
+.content {
     flex-shrink: 1;
     display: flex;
     flex-direction: column;
@@ -36,65 +42,96 @@ body{
     overflow: auto;
     height: 100vh;
 }
-.left_menu .menu{
+
+.left_menu .menu {
     list-style: none;
-    margin-top:50px;
-    margin-left:20px;
+    margin-top: 50px;
+    margin-left: 20px;
 }
-.left_menu .menu .element-menu{
+
+.left_menu .menu .element-menu {
     margin: 15px 0;
 }
-table{
+
+table {
     width: 100%;
     margin-top: 20px;
     text-align: center;
 }
-.container{
-    margin:20px;
+
+.container {
+    margin: 20px;
 }
-form{
-    width:500px;
+
+form {
+    width: 500px;
     display: flex;
     flex-direction: column;
 }
-h2{
+
+h2 {
     margin: 20px 0;
 }
+
 p {
     padding: 10px 0;
 }
 
-.pagination{
+.pagination {
     list-style: none;
     display: flex;
-    margin:auto;
+    margin: auto;
     max-width: fit-content;
 }
-.page-item.active{
-    color:#000000;
+
+.page-item.active {
+    color: #000000;
 }
-.page-item{
+
+.page-item {
     font-size: 20px;
     margin: 5px;
     background: white;
-    height:auto;
+    height: auto;
     border-radius: 3px;
     padding: 5px 0;
 }
-.page-link{
+
+.page-link {
     padding: 10px;
 }
-.search-fields{
+
+.search-fields {
     display: flex;
     justify-content: space-between;
     flex-direction: row;
-    width:100%;
-    margin-top:20px;
+    width: 100%;
+    margin-top: 20px;
 }
-#search_btn{
+
+#search_btn {
     width: 150px;
     margin-left: 20px;
 }
-#search_fields{
+
+#search_fields {
     flex-grow: 1;
+}
+
+.actions {
+    display: flex;
+    width: 200px;
+    justify-content: space-between;
+    margin:auto;
+}
+
+.action-button {
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+    width: auto;
+}
+
+.action-button button {
+    padding: 5px;
 }

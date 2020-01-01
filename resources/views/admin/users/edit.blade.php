@@ -10,7 +10,8 @@
     <a href="{{ route('admin.users.index') }}">Назад</a>
     <h2>Редактирование пользователя</h2>
     <form action="{{ route('admin.users.update', ['id' => $user['id']]) }}" method="post">
-        {{ csrf_field() }}
+        @csrf
+        @method('put')
 
         <div class="form-group">
             <span>Фамилия</span>
@@ -80,7 +81,7 @@
         </div>
 
         <div class="form-group">
-            <span>Админ <input type="checkbox" name="is_admin" {{ $user['is_admin'] ? 'checked' : '' }}></span>
+            <span>Админ <input type="checkbox" name="is_admin" {{ $user->isAdmin() ? 'checked' : '' }}></span>
             @if ($errors->has('is_admin'))
                 <span class="error_message">{{ $errors->first('is_admin') }}</span>
             @endif
