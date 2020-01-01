@@ -60,7 +60,6 @@ class ReceiptService extends BaseService
         if ($receipt->file_id) {
             $this->fileService->delete($receipt->file_id);
         }
-        parent::delete($id);
     }
 
     public function update($id, $params)
