@@ -4,14 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Receipt\StoreRequest;
 use App\Http\Requests\Receipt\UpdateRequest;
-use App\Receipt;
 use App\Services\ReceiptService;
 use App\Services\SteadService;
 use App\Stead;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\File;
 
 class ReceiptController extends Controller
 {
@@ -75,49 +72,37 @@ class ReceiptController extends Controller
     }
 
     /**
-     * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function multipleCreate(Request $request)
+    public function multipleCreate()
     {
         return view('admin.receipts.multiple_create');
     }
 
     /**
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function multipleStore(Request $request)
     {
-        $files = $request->file('receipts');
+        $file = $request->file('receipt');
 
-        $steads_list = [];
+        $stead = Stead::where('number', mb_substr($file->getClientOriginalName(), 0, -4))->get()->first();
+        if ($stead) {
+            $this->receiptService->create([
+                'stead_id' => $stead->id,
+                'date_receipt' => $request->input('date_receipt'),
+                'receipt_file' => $file
+            ]);
 
-        foreach ($files as $file) {
-            $stead = Stead::where('number', mb_substr($file->getClientOriginalName(), 0, -4))->get()->first();
-            if ($stead) {
-
-                $this->receiptService->create([
-                    'stead_id' => $stead->id,
-                    'date_receipt' => $request->input('date_receipt'),
-                    'receipt_file' => $file
-                ]);
-
-            } else {
-                Session::flash('msg.status', 'danger');
-                Session::flash('msg.text', 'Не найдены следующие участки: ');
-                $steads_list[] = mb_substr($file->getClientOriginalName(), 0, -4);
-            }
-        }
-
-        if (isset($steads_list) and count($steads_list) > 0) {
-            Session::flash('msg.steads', $steads_list);
+            return response()->json([
+                'result' => 'success',
+            ]);
         } else {
-            Session::flash('msg.status', 'success');
-            Session::flash('msg.text', 'Квитанции успешно дабвлены!');
+            return response()->json([
+                'result' => 'fail',
+            ]);
         }
-
-        return back();
     }
 
     /**
