@@ -29,7 +29,7 @@
             @endif
         </div>
 
-        <input type="submit">
+        <input type="submit" value="Сохранить">
     </form>
     <script>
         CKEDITOR.replace( 'content' );
