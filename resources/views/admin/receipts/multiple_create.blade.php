@@ -32,7 +32,7 @@
                     @endif
                 </div>
 
-                <input type="submit">
+                <input type="submit" value="Сохранить">
             </form>
         </div>
         <div class="left_part files" id="files">
