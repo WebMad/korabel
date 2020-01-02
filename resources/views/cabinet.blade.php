@@ -81,7 +81,7 @@
                         </div>
                         <input type="hidden" name="is_cabinet" value="1">
 
-                        <input type="submit">
+                        <input type="submit" value="Сохранить">
                     </form>
                 </div>
                 @if(Auth::user()->active == 1)
