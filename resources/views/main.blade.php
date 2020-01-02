@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>СНТ КОРАБЕЛ - @yield('title')</title>
+	<title>{{ isset($site_infos['site_name']) ? $site_infos['site_name'] : '' }}  - @yield('title')</title>
 	<meta charset="utf-8">
 	<meta name="yandex-verification" content="49ba18a912016474" />
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/landing/style.css') }}">
@@ -16,8 +16,8 @@
 <body>
 <header>
 	<a href="{{ route('landing') }}" class="logo">
-		<div class="logo-text">{{ isset(App\Http\Controllers\InfoController::getInfo()['site_name']) ? App\Http\Controllers\InfoController::getInfo()['site_name'] : '' }}</div>
-		<div class="logo-desc">{{ isset(App\Http\Controllers\InfoController::getInfo()['site_subname']) ? App\Http\Controllers\InfoController::getInfo()['site_subname'] : '' }}</div>
+		<div class="logo-text">{{ isset($site_infos['site_name']) ? $site_infos['site_name'] : '' }}</div>
+		<div class="logo-desc">{{ isset($site_infos['site_subname']) ? $site_infos['site_subname'] : '' }}</div>
 	</a>
 	<div class="menu">
 		<a href="{{ route('landing') }}" class="element">Главная</a>

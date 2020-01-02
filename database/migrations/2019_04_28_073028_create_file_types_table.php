@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateInfosTable extends Migration
+class CreateFileTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateInfosTable extends Migration
      */
     public function up()
     {
-        Schema::create('infos', function (Blueprint $table) {
+        Schema::create('file_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->nullable();
-            $table->text('content')->nullable();
+            $table->string('name');
         });
     }
 
@@ -27,6 +26,6 @@ class CreateInfosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('infos');
+        Schema::dropIfExists('file_types');
     }
 }

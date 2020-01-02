@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -11,6 +12,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use Notifiable;
+
+    const ADMIN_ID = 1;
 
     /**
      * The attributes that are mass assignable.
@@ -39,25 +42,44 @@ class User extends Authenticatable
         //'email_verified_at' => 'datetime',
     ];
 
-    static public function search($string){
-        $string = explode(' ', $string);
-
-        $select = DB::table('users');
-
-        if(isset($string[0])){
-            $select->where('surname', 'LIKE', "%$string[0]%");
-        }
-        if(isset($string[1])){
-            $select->where('name', 'LIKE', "%$string[1]%");
-        }
-        if(isset($string[2])){
-            $select->where('patronymic', 'LIKE', "%$string[2]%");
-        }
-
-        return $select;
-
+    public function getFio()
+    {
+        return "$this->surname $this->name $this->patronymic";
     }
 
+    /**
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        if ($this->roles()->where(['role_id' => Role::ADMIN])->first()) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUser()
+    {
+        if ($this->roles()->where(['role_id' => Role::USER])->first()) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function roles()
+    {
+        return $this->belongsToMany('App\Role', 'users_roles');
+    }
+
+    /**
+     * @param string $token
+     */
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPassword($token));

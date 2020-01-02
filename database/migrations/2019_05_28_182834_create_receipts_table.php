@@ -18,16 +18,20 @@ class CreateReceiptsTable extends Migration
             $table->integer('stead_id')
                 ->unsigned()
                 ->nullable();
-
-            $table->string('file');
+            $table->integer('file_id')->unsigned()->nullable();
             $table->string('date_receipt');
             $table->timestamps();
+
+
+            $table->foreign('file_id')
+                ->references('id')
+                ->on('files')
+                ->onDelete('CASCADE');
 
             $table->foreign('stead_id')
                 ->references('id')
                 ->on('steads')
                 ->onDelete('cascade');
-
         });
     }
 

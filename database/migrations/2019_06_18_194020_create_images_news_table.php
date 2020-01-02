@@ -15,9 +15,14 @@ class CreateImagesNewsTable extends Migration
     {
         Schema::create('images_news', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('img_url');
-            $table->integer('new_id')->unsigned()->nullable();
 
+            $table->integer('new_id')->unsigned()->nullable();
+            $table->integer('img_id')->unsigned()->nullable();
+
+            $table->foreign('img_id')
+                ->references('id')
+                ->on('files')
+                ->onDelete('CASCADE');
             $table->foreign('new_id')
                 ->references('id')
                 ->on('news')

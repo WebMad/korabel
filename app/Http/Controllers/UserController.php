@@ -2,48 +2,46 @@
 
 namespace App\Http\Controllers;
 
-//use Dotenv\Validator;
+use App\Http\Requests\User\StoreRequest;
+use App\Http\Requests\User\UpdateRequest;
+use App\Http\Resources\UserResource;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use App\User;
-use App\UsersRole;
-use App\Role;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
-    public function __construct()
+    private $userService;
+
+    public function __construct(UserService $userService)
     {
-        $this->middleware('auth');
+        $this->userService = $userService;
     }
 
-    public function create(){
+    public function index(Request $request)
+    {
+        if ($request->get('search')) {
+            $users = $this->userService->search($request->get('search'))->paginate(30);
+        } else {
+            $users = User::paginate(30);
+        }
+
+        return view('admin.users.view', [
+            'users' => $users
+        ]);
+    }
+
+    public function create()
+    {
         return view('admin.users.create');
     }
-    public function store(Request $request){
-        $fields = $request->only('email', 'phone', 'password', 'name', 'surname', 'patronymic', 'active');
-        $fields['password_confirmation'] = $request->input('password_confirmation');
-        Validator::make($fields, [
-            'email' => 'required|unique:users',
-            'password' => 'required|confirmed',
-            'name' => 'required',
-            'surname' => 'required',
-            'patronymic' => '',
-            'phone' => '',
-        ])->validate();
-        $fields['password'] = Hash::make($fields['password']);
-        unset($fields['password_confirmation']);
-        User::create($fields);
-        if($request->input('is_admin')) {
-            UsersRole::create([
-                'id_user' => User::orderBy('id', 'desc')->first()->value('id'),
-                'id_role' => Role::where('name', 'admin-panel')->first()->value('id')
-            ]);
-            //dd(User::orderBy('id', 'desc')->limit(0, 1)->value('id'));
-        }
+
+    public function store(StoreRequest $request)
+    {
+
+        $this->userService->create($request->all());
 
         Session::flash('msg.status', 'success');
         Session::flash('msg.text', 'Пользователь добавлен!');
@@ -51,56 +49,24 @@ class UserController extends Controller
         return back();
     }
 
-    public function edit($id){
-        $data = User::findOrFail($id);
-        $data['is_admin'] = UsersRole::where('id_user', $id)->first() ? true : false;
-        return view('admin.users.edit', ['user' => $data]);
+    public function edit($id)
+    {
+        $user = $this->userService->find($id);
+        return view('admin.users.edit', ['user' => $user]);
     }
-    public function update(Request $request, $id = null){
-        if($id == null){
-            $id =  Auth::user()->id;
 
-        }
-        else{
-            if ($request->input('is_admin')) {
-                UsersRole::create([
-                    'id_user' => $id,
-                    'id_role' => Role::where('name', 'admin-panel')->first()->value('id')
-                ]);
-            } else {
-                UsersRole::where([
-                    'id_user' => $id,
-                    'id_role' => Role::where('name', 'admin-panel')->first()->value('id')
-                ])->delete();
-            }
+    public function update(UpdateRequest $updateRequest, $id)
+    {
+        $params = $updateRequest->all();
+        if (empty($params['password'])) {
+            unset($params['password']);
         }
 
-        $fields = $request->only('phone', 'name', 'surname', 'patronymic', 'active');
-        if(!empty($request->input('password'))){
-            $fields['password'] = $request->input('password');
-            $fields['password_confirmation'] = $request->input('password_confirmation');
-            Validator::make($fields,[
-                'password' => 'max:255|confirmed',
-            ])->validate();
-            $fields['password'] = Hash::make($fields['password']);
-            unset($fields['password_confirmation']);
+        if (isset($params['is_cabinet'])) {
+            $params['is_admin'] = Auth::user()->isAdmin() ? 'checked' : '';
         }
-        if($request->input('email') != User::find($id)->email){
-            $fields['email'] = $request->input('email');
-            Validator::make($fields,[
-                'email' => 'required|unique:users|max:255',
-            ])->validate();
-        }
-        Validator::make($fields, [
-            'phone' => 'max:255',
-            'name' => 'required|max:255',
-            'surname' => 'max:255',
-            'patronymic' => 'max:255',
-        ])->validate();
 
-        //dd($fields);
-
-        User::find($id)->fill($fields)->save();
+        $this->userService->update($id, $params);
 
         Session::flash('msg.status', 'success');
         Session::flash('msg.text', 'Данные успешно сохранены!');
@@ -108,8 +74,9 @@ class UserController extends Controller
         return back();
     }
 
-    public function delete($id){
-        User::destroy($id);
+    public function destroy($id)
+    {
+        $this->userService->delete($id);
 
         Session::flash('msg.status', 'success');
         Session::flash('msg.text', 'Пользователь удален!');
@@ -117,19 +84,12 @@ class UserController extends Controller
         return back();
     }
 
-    public function searchUser($string = ''){
+    public function searchUser(Request $request)
+    {
+        $search = $request->get('search');
+        $users = $this->userService->search($search)->limit(30)->get();
 
-        $users = User::search($string)->get();
-
-        return response()->json($users);
+        return UserResource::collection($users);
     }
-
-    public static function hasRole($role){
-        $id_role = Role::where('name', '=', $role)->value('id');
-        $id_user = Auth::id();
-        $value = UsersRole::where('id_user', '=', $id_user)->where('id_role', '=', $id_role)->first();
-        return isset($value->id) ? true : false;
-    }
-
 
 }

@@ -10,7 +10,7 @@
     <a href="{{ route('admin.users.index') }}">Назад</a>
     <h2>Создание пользователя</h2>
     <form action="{{ route('admin.users.store') }}" method="post">
-        {{ csrf_field() }}
+        @csrf
 
         <div class="form-group">
             <span>Фамилия:</span>

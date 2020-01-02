@@ -13,18 +13,20 @@ $( document ).ready(function(){
         }
 
     }, 1000);
+    searchStead();
 });
 
 function searchStead() {
     $.ajax({
-        url: '/admin/steads/search/' + $('#search_stead').val(),
+        url: '/admin/steads/search?search=' + $('#search_stead').val(),
     }).done(function (data) {
         for (var i = steads.length; i > count_delete; i--) {
             steads.removeChild(steads.children[count_delete]);
         }
         data.forEach(function (value) {
             div = document.createElement('option');
-            div.innerHTML = value.number + ' - ' + value.surname + ' ' + value.name + ' ' + value.patronymic;
+            fio = (value.user) ? value.user.surname + ' ' + value.user.name + ' ' + value.user.patronymic : 'Нет владельца';
+            div.innerHTML = value.number + ' - ' + fio;
             div.setAttribute('value', value.id);
             document.getElementById('steads').appendChild(div);
         });

@@ -2,26 +2,42 @@
 
 namespace App\Http\Controllers;
 
-use App\Stead;
-use App\User;
+use App\Http\Requests\Stead\StoreRequest;
+use App\Http\Requests\Stead\UpdateRequest;
+use App\Services\SteadService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class SteadController extends Controller
 {
+
+    private $steadService;
+    private $userService;
+
+    /**
+     * SteadController constructor.
+     * @param SteadService $steadService
+     * @param UserService $userService
+     */
+    public function __construct(SteadService $steadService, UserService $userService)
+    {
+        $this->steadService = $steadService;
+        $this->userService = $userService;
+    }
+
     /**
      * View all steads
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index(Request $request){
-        $steads = DB::table('steads')
-            ->select('steads.id', 'steads.number', 'users.name', 'users.surname', 'users.patronymic')
-            ->leftJoin('users', 'steads.user_id', '=', 'users.id');
+    public function index(Request $request)
+    {
 
-        if($request->input('search')){
-            $steads->where('steads.number', 'LIKE', '%'.$request->input('search').'%');
+        if (!empty($request->input('search'))) {
+            $steads = $this->steadService->search($request->input('search'), ['user']);
+        } else {
+            $steads = $this->steadService->all(['user']);
         }
 
         return view('admin.steads.view', [
@@ -33,14 +49,10 @@ class SteadController extends Controller
      * Create new stead
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create(){
+    public function create()
+    {
 
-        return view('admin.steads.create', [
-            'users' =>
-                DB::table('users')
-                    ->select('id', 'surname', 'name', 'patronymic')
-                    ->get()
-        ]);
+        return view('admin.steads.create');
     }
 
     /**
@@ -48,12 +60,9 @@ class SteadController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request){
-        $request->validate([
-            'number' => 'required',
-            'user_id' => '',
-        ]);
-        Stead::create($request->all());
+    public function store(StoreRequest $request)
+    {
+        $this->steadService->create($request->all());
 
         Session::flash('msg.status', 'success');
         Session::flash('msg.text', 'Участок добавлен!');
@@ -67,31 +76,25 @@ class SteadController extends Controller
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit($id){
-        $stead = Stead::findOrFail($id);
+    public function edit($id)
+    {
+        $stead = $this->steadService->find($id, ['user']);
 
         return view('admin.steads.edit', [
             'stead' => $stead,
-            'users' => User::all(),
-            'user' => User::find($stead->user_id)
         ]);
     }
 
     /**
      * Update stead
-     * @param Request $request
+     * @param UpdateRequest $request
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id){
-        $stead = Stead::findOrFail($id);
+    public function update(UpdateRequest $request, $id)
+    {
 
-        $request->validate([
-            'number' => 'required',
-            'user_id' => '',
-        ]);
-
-        $stead->fill($request->all())->save();
+        $this->steadService->update($id, $request->all());
 
         Session::flash('msg.status', 'success');
         Session::flash('msg.text', 'Участок изменен!');
@@ -103,9 +106,11 @@ class SteadController extends Controller
      * Delete stead
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
-    public function delete($id){
-        Stead::destroy($id);
+    public function destroy($id)
+    {
+        $this->steadService->delete($id);
 
         Session::flash('msg.status', 'success');
         Session::flash('msg.text', 'Участок удален!');
@@ -113,12 +118,9 @@ class SteadController extends Controller
         return back();
     }
 
-    public function searchStead($number = ''){
-        return response()->json(
-            Stead::where('number', 'LIKE', "%$number%")
-                ->select('steads.id', 'steads.number', 'users.surname', 'users.name', 'users.patronymic')
-                ->join('users', 'users.id', '=', 'steads.user_id')
-                ->get()
-        );
+    public function searchStead(Request $request)
+    {
+        $number = $request->get('search');
+        return response()->json($this->steadService->all(['user'])->limit(30)->where('number', 'LIKE', "%$number%")->get());
     }
 }

@@ -13,12 +13,13 @@
     <a href="{{ route('admin.receipts.index') }}">Назад</a>
     <h2>Редактирование квитанции</h2>
     <form action="{{ route('admin.receipts.update', [$receipt->id]) }}" method="post" enctype="multipart/form-data">
-        {{ csrf_field() }}
+        @csrf
+        @method('put')
 
         <div class="form-group">
             <span>Файл:</span>
-            <input type="file" accept="application/pdf" name="receipts">
-            @if ($errors->has('receipts'))
+            <input type="file" accept="application/pdf" name="receipt_file">
+            @if ($errors->has('receipt_file'))
                 <span class="error_message">Выберите файл</span>
             @endif
         </div>
@@ -35,15 +36,7 @@
             <span>Участок:</span>
             <input type="text" placeholder="Поиск участка" id="search_stead">
             <select id="steads" name="stead_id" size="5">
-                <option selected value="{{ $stead->id }}">{{ $stead->number }} - {{ $stead->surname }} {{ $stead->name }} {{ $stead->patronymic }}</option>
-                @foreach($steads as $stead)
-                    <option class="user" value="{{ $stead->id }}">
-                        {{ $stead->number }} -
-                        {{ $stead->surname }}
-                        {{ $stead->name }}
-                        {{ $stead->patronymic }}
-                    </option>
-                @endforeach
+                <option selected value="{{ $stead->id }}">{{ $stead->number }} - {{ ($stead->user) ? $stead->user->surname . " " . $stead->user->name . " " . $stead->user->patronymic : 'Нет владельца' }}</option>
             </select>
             @if ($errors->has('stead_id'))
                 <span class="error_message">Выберите участок</span>
