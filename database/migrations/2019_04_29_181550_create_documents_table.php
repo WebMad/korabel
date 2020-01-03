@@ -14,9 +14,9 @@ class CreateDocumentsTable extends Migration
     public function up()
     {
         Schema::create('documents', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
 
-            $table->integer('file_id')->unsigned()->nullable();
+            $table->unsignedBigInteger('file_id')->nullable();
             $table->timestamps();
 
             $table->foreign('file_id')

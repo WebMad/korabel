@@ -30,10 +30,10 @@
                 <td>{{ (isset($stead->user)) ? $stead->user->surname . " " . $stead->user->name . " " . $stead->user->patronymic : 'Нет владельца' }}</td>
                 <td>
                     <div class="actions">
-                        <a class="action-button" href="{{ route('admin.steads.edit', ['id'=> $stead->id]) }}">
+                        <a class="action-button" href="{{ route('admin.steads.edit', ['stead'=> $stead->id]) }}">
                             <button>Редактировать</button>
                         </a>
-                        <form class="action-button" action="{{ route('admin.steads.destroy', ['id'=> $stead->id]) }}" method="post">
+                        <form class="action-button" action="{{ route('admin.steads.destroy', ['stead'=> $stead->id]) }}" method="post">
                             @csrf
                             @method('delete')
                             <button>Удалить</button>
