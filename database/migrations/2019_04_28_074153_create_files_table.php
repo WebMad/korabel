@@ -14,11 +14,11 @@ class CreateFilesTable extends Migration
     public function up()
     {
         Schema::create('files', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('name');
             $table->text('url');
             $table->string('img')->default('images/landing/pdf.jpg');
-            $table->unsignedInteger('file_type_id')->nullable();
+            $table->unsignedBigInteger('file_type_id')->nullable();
             $table->timestamps();
 
             $table->foreign('file_type_id')

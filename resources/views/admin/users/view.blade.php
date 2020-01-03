@@ -33,10 +33,10 @@
                     <td>{{ $user->active == 1 ? 'Активный' : 'Неактивный' }}</td>
                     <td>
                         <div class="actions">
-                            <a class="action-button" href="{{ route('admin.users.edit', ['id'=> $user['id']]) }}">
+                            <a class="action-button" href="{{ route('admin.users.edit', ['user'=> $user['id']]) }}">
                                 <button>Редактировать</button>
                             </a>
-                            <form class="action-button" action="{{ route('admin.users.destroy', ['id'=> $user['id']]) }}" method="post">
+                            <form class="action-button" action="{{ route('admin.users.destroy', ['user'=> $user['id']]) }}" method="post">
                                 @csrf
                                 @method('delete')
                                 <button>Удалить</button>

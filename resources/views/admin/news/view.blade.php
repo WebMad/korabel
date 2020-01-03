@@ -28,10 +28,10 @@
                 <td>{{ $new['header'] }}</td>
                 <td>
                     <div class="actions">
-                        <a class="action-button" href="{{ route('admin.news.edit', ['id'=> $new['id']]) }}">
+                        <a class="action-button" href="{{ route('admin.news.edit', ['news'=> $new['id']]) }}">
                             <button>Редактировать</button>
                         </a>
-                        <form class="action-button" action="{{ route('admin.news.destroy', ['id'=> $new['id']]) }}" method="post">
+                        <form class="action-button" action="{{ route('admin.news.destroy', ['news'=> $new['id']]) }}" method="post">
                             @csrf
                             @method('delete')
                             <button>Удалить</button>
