@@ -18,7 +18,7 @@
     @endif
     <a href="{{ route('admin.steads.index') }}">Назад</a>
     <h2>Редактирование участка</h2>
-    <form action="{{ route('admin.steads.update', ['id' => $stead->id]) }}" method="post">
+    <form action="{{ route('admin.steads.update', ['stead' => $stead->id]) }}" method="post">
         @csrf
         @method('put')
 
