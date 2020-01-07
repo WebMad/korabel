@@ -66,7 +66,7 @@ class ReceiptController extends Controller
         $this->receiptService->create($data);
 
         Session::flash('msg.status', 'success');
-        Session::flash('msg.text', 'Квитанция успешно дабвлена!');
+        Session::flash('msg.text', 'Квитанция успешно дабавлена!');
 
         return back();
     }

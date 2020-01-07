@@ -48,6 +48,7 @@ function uploadFiles(files, index = 0) {
         dataType: 'json',
         processData: false,
         contentType: false,
+        cache: false,
     }).done((html) => {
         if (html.result === 'success') {
             $('div[file-index=' + index + ']').attr('class', 'upload-file success');
