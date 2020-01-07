@@ -31,10 +31,10 @@
                 <td>{{ $document->file->fileType->name }}</td>
                 <td>
                     <div class="actions">
-                        <a class="action-button" href="{{ route('admin.documents.edit', ['id'=> $document->id]) }}">
+                        <a class="action-button" href="{{ route('admin.documents.edit', ['document'=> $document->id]) }}">
                             <button>Редактировать</button>
                         </a>
-                        <form class="action-button" action="{{ route('admin.documents.destroy', ['id'=> $document->id]) }}" method="post">
+                        <form class="action-button" action="{{ route('admin.documents.destroy', ['document'=> $document->id]) }}" method="post">
                             @csrf
                             @method('delete')
                             <button>Удалить</button>

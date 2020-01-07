@@ -34,11 +34,11 @@
                 <td><a href="{{ asset($receipt->file->url) }}">Скачать</a></td>
                 <td>
                     <div class="actions">
-                        <a class="action-button" href="{{ route('admin.receipts.edit', ['id'=> $receipt->id]) }}">
+                        <a class="action-button" href="{{ route('admin.receipts.edit', ['receipt'=> $receipt->id]) }}">
                             <button>Редактировать</button>
                         </a>
                         <form class="action-button"
-                              action="{{ route('admin.receipts.destroy', ['id'=> $receipt->id]) }}" method="post">
+                              action="{{ route('admin.receipts.destroy', ['receipt'=> $receipt->id]) }}" method="post">
                             @csrf
                             @method('delete')
                             <button>Удалить</button>

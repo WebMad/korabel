@@ -9,7 +9,7 @@
 @section('content')
     <a href="{{ route('admin.users.index') }}">Назад</a>
     <h2>Редактирование пользователя</h2>
-    <form action="{{ route('admin.users.update', ['id' => $user['id']]) }}" method="post">
+    <form action="{{ route('admin.users.update', ['user' => $user['id']]) }}" method="post">
         @csrf
         @method('put')
 

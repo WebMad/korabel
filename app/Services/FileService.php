@@ -23,7 +23,7 @@ class FileService extends BaseService
     public function upload($file, $dir)
     {
         $destination_path = 'storage/uploads/' . $dir;
-        $file_name = time() . '.' . $file->getClientOriginalExtension();
+        $file_name = str_replace('.', '-', microtime(true)) . '.' . $file->getClientOriginalExtension();
         $file->move(public_path($destination_path), $file_name);
 
         return $destination_path . '/' . $file_name;

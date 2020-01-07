@@ -14,10 +14,10 @@ class CreateImagesNewsTable extends Migration
     public function up()
     {
         Schema::create('images_news', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
 
-            $table->integer('new_id')->unsigned()->nullable();
-            $table->integer('img_id')->unsigned()->nullable();
+            $table->unsignedBigInteger('new_id')->nullable();
+            $table->unsignedBigInteger('img_id')->nullable();
 
             $table->foreign('img_id')
                 ->references('id')

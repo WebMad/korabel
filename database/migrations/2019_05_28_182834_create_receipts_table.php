@@ -14,11 +14,9 @@ class CreateReceiptsTable extends Migration
     public function up()
     {
         Schema::create('receipts', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('stead_id')
-                ->unsigned()
-                ->nullable();
-            $table->integer('file_id')->unsigned()->nullable();
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('stead_id')->nullable();
+            $table->unsignedBigInteger('file_id')->nullable();
             $table->string('date_receipt');
             $table->timestamps();
 
