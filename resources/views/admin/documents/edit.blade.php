@@ -8,7 +8,7 @@
 @section('content')
     <a href="{{ route('admin.documents.index') }}">Назад</a>
     <h2>Редактирование документа</h2>
-    <form action="{{ route('admin.documents.update', ['id' => $document->id]) }}" method="post"
+    <form action="{{ route('admin.documents.update', ['document' => $document->id]) }}" method="post"
           enctype="multipart/form-data">
         @csrf
         @method('put')

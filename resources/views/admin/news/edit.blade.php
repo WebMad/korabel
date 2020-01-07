@@ -9,7 +9,7 @@
 @section('content')
     <a href="{{ route('admin.news.index') }}">Назад</a>
     <h2>Редактирование новости</h2>
-    <form action="{{ route('admin.news.update',['id' => $new['id']]) }}" method="post">
+    <form action="{{ route('admin.news.update',['news' => $new['id']]) }}" method="post">
         @csrf
         @method('put')
 
