@@ -36,7 +36,7 @@
                 @endif
             </div>
 
-            @if(Auth::user()->active == 1 || Auth::user()->isAdmin())
+            @if((isset(Auth::user()->active) && Auth::user()->active == 1) || Auth::user()->isAdmin())
                 <h3>Протоколы собраний</h3>
                 <div class="row-file">
                     @foreach($protocols as $protocol)
